@@ -1,45 +1,27 @@
-# Portfolio — Cybersecurity Analyst
+# 0xherni — Portfolio
 
-Sitio estático de una sola página, sin build step. Tailwind CSS vía CDN, dark theme.
+🔗 **https://0xherni.github.io**
 
-## Estructura
+![preview](assets/img/preview.png)
 
-```
-.
-├── index.html              # Página única (hero, sobre mí, proyectos, skills, contacto)
-├── assets/
-│   ├── css/style.css        # Estilos adicionales (scroll suave, glow, selección)
-│   └── js/main.js           # Año dinámico en el footer
-└── README.md
-```
+**English** · [Español](#español)
 
-## Cómo verlo localmente
+Personal portfolio of Hernán Argibay, Cybersecurity Analyst based in Buenos Aires.
 
-Abrí `index.html` directamente en el navegador (doble clic) o servilo con un servidor local:
+## About the site
+- Static site, no frameworks or build step: HTML + Tailwind CSS (CDN) + vanilla JS.
+- Bilingual (EN / ES) with a language switcher.
+- Dark theme with a terminal aesthetic.
+- Case studies: Anomaly Detection API and MCP / AI Security.
 
-```bash
-# Python
-python -m http.server 8000
+---
 
-# Node
-npx serve .
-```
+## Español
 
-Luego entrá a `http://localhost:8000`.
+Portfolio personal de Hernán Argibay, Cybersecurity Analyst en Buenos Aires.
 
-## Pendientes antes de publicar
-
-1. **Casos de estudio** — completar los textos e imágenes marcados con `EDITAR` en `proyectos/*.html`.
-
-## Deploy en GitHub Pages
-
-```bash
-git init
-git add .
-git commit -m "Portfolio inicial"
-git branch -M main
-git remote add origin https://github.com/0xherni/<nombre-del-repo>.git
-git push -u origin main
-```
-
-Luego, en **Settings → Pages** del repo, activar GitHub Pages apuntando a la rama `main` / carpeta raíz.
+### Sobre el sitio
+- Sitio estático, sin frameworks ni build step: HTML + Tailwind CSS (CDN) + JS vanilla.
+- Bilingüe (ES / EN) con selector de idioma.
+- Dark theme con estética de terminal.
+- Casos de estudio: Anomaly Detection API y MCP / AI Security.
