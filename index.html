@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0xherni — Cybersecurity Analyst</title>
+<meta name="description" content="Cybersecurity Analyst portfolio based in Buenos Aires. Threat detection, security architecture and AI applied to security.">
+
+
+  i18n: default language is English (lang="en"). Spanish copy lives in the
+  translations dictionary in assets/js/main.js, keyed by data-i18n attributes.
+-->
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0a0a0b',
+          panel: '#111114',
+          line: '#222226',
+          mute: '#8a8a92',
+          accent: '#ff3b3b', /* previous palette: '#39ffb0' (green) */
+        },
+        fontFamily: {
+          mono: ['JetBrains Mono', 'monospace'],
+          sans: ['Space Grotesk', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+</head>
+
+<body class="bg-ink text-zinc-200 font-sans antialiased">
+
+<!-- ===== NAV ===== -->
+<header class="fixed top-0 inset-x-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="font-mono text-sm text-accent tracking-tight">0xherni<span class="text-mute">/</span>portfolio</a>
+    <div class="hidden md:flex items-center gap-8 font-mono text-sm text-mute">
+      <a href="#sobre-mi" class="hover:text-accent transition-colors" data-i18n="nav.about">01. About</a>
+      <a href="#proyectos" class="hover:text-accent transition-colors" data-i18n="nav.projects">02. Projects</a>
+      <a href="#skills" class="hover:text-accent transition-colors" data-i18n="nav.skills">03. Skills</a>
+      <a href="#contacto" class="hover:text-accent transition-colors" data-i18n="nav.contact">04. Contact</a>
+    </div>
+    <div class="flex items-center gap-1.5 font-mono text-sm" role="group" aria-label="Language selector">
+      <button type="button" data-lang="es" class="lang-btn flex items-center gap-1.5 px-2 py-1.5 rounded text-mute hover:text-accent transition-colors" aria-label="Español">
+        <span aria-hidden="true">🇦🇷</span><span>ES</span>
+      </button>
+      <span class="text-line">/</span>
+      <button type="button" data-lang="en" class="lang-btn flex items-center gap-1.5 px-2 py-1.5 rounded text-accent transition-colors" aria-label="English">
+        <span aria-hidden="true">🇺🇸</span><span>EN</span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section id="top" class="relative pt-40 pb-28 px-6 max-w-6xl mx-auto">
+  <div class="grid md:grid-cols-[1fr_auto] gap-12 items-start">
+    <div>
+      <p class="font-mono text-accent text-sm mb-5">// Buenos Aires, Argentina</p>
+      <h1 class="font-sans font-700 text-5xl sm:text-6xl md:text-7xl leading-[1.05] tracking-tight text-zinc-50">
+        <span class="text-mute" id="name-scramble" data-text="Hernán Argibay">Hernán Argibay</span><br>
+        Cybersecurity<br>Analyst.
+      </h1>
+      <p class="mt-8 max-w-xl text-lg text-zinc-400 leading-relaxed" data-i18n="hero.pitch">
+        I defend critical systems by analyzing anomalous behavior, modeling threats,
+        and automating detection with AI — before an attacker finds the crack.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#contacto"
+           class="font-mono text-sm bg-accent text-ink px-5 py-3 rounded font-medium hover:opacity-90 transition-opacity"
+           data-i18n="hero.cta.contact">
+          Contact →
+        </a>
+        <a href="https://github.com/0xherni" target="_blank" rel="noopener noreferrer"
+           class="font-mono text-sm border border-line px-5 py-3 rounded hover:border-accent hover:text-accent transition-colors"
+           data-i18n="hero.cta.github">
+          View GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Profile photo -->
+    <figure class="profile-card w-64 sm:w-72 lg:w-80 shrink-0 mx-auto md:mx-0 order-first md:order-none">
+      <div class="profile-frame">
+        <img src="assets/img/perfil.jpg" alt="Hernán Argibay" width="640" height="800" class="profile-img">
+        <span class="profile-tint" aria-hidden="true"></span>
+        <span class="profile-scan" aria-hidden="true"></span>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="sobre-mi" class="py-24 px-6 max-w-6xl mx-auto border-t border-line">
+  <div class="grid md:grid-cols-[200px_1fr] gap-10">
+    <h2 class="font-mono text-accent text-sm" data-i18n="about.heading">01 / About me</h2>
+    <p class="text-xl md:text-2xl leading-relaxed text-zinc-300 max-w-2xl" data-i18n="about.body">
+      Cybersecurity analyst based in Buenos Aires, focused on threat detection,
+      security architecture, and incident response. I combine traditional security
+      tooling with AI models to automate anomaly detection and accelerate threat
+      hunting. I think like an attacker to design defenses that actually hold.
+    </p>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="proyectos" class="py-24 px-6 max-w-6xl mx-auto border-t border-line">
+  <h2 class="font-mono text-accent text-sm mb-12" data-i18n="projects.heading">02 / Featured projects</h2>
+
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <!-- Project 1 -->
+    <a href="proyectos/anomaly-detection-api.html" class="group block border border-line rounded-lg p-8 hover:border-accent/60 transition-colors bg-panel">
+      <div class="flex items-center justify-between mb-6">
+        <span class="font-mono text-xs text-mute">01</span>
+        <span class="font-mono text-xs text-accent border border-accent/30 rounded-full px-2 py-1">F1 0.92</span>
+      </div>
+      <h3 class="font-sans text-2xl font-semibold text-zinc-50 mb-3">Anomaly Detection API</h3>
+      <p class="text-zinc-400 leading-relaxed mb-6" data-i18n="projects.card1.desc">
+        AI-powered anomaly detection backend designed to identify atypical behavior
+        in real-time data streams.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Python</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">FastAPI</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Isolation Forest</span>
+      </div>
+      <span class="font-mono text-xs text-accent group-hover:underline" data-i18n="projects.cta">View full case →</span>
+    </a>
+
+    <!-- Project 2 -->
+    <a href="proyectos/mcp-ai-security.html" class="group block border border-line rounded-lg p-8 hover:border-accent/60 transition-colors bg-panel">
+      <div class="flex items-center justify-between mb-6">
+        <span class="font-mono text-xs text-mute">02</span>
+        <span class="font-mono text-xs text-accent border border-accent/30 rounded-full px-2 py-1">Research</span>
+      </div>
+      <h3 class="font-sans text-2xl font-semibold text-zinc-50 mb-3">MCP / AI Security</h3>
+      <p class="text-zinc-400 leading-relaxed mb-6" data-i18n="projects.card2.desc">
+        Research into MCP/AI security, focused on JWT authentication and secrets
+        management.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">MCP</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">JWT Auth</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Secrets Mgmt</span>
+      </div>
+      <span class="font-mono text-xs text-accent group-hover:underline" data-i18n="projects.cta">View full case →</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills" class="py-24 px-6 max-w-6xl mx-auto border-t border-line">
+  <h2 class="font-mono text-accent text-sm mb-12" data-i18n="skills.heading">03 / Skills</h2>
+
+  <div class="grid md:grid-cols-2 gap-10">
+
+    <div>
+      <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.security.header">Security Engineering</h3>
+      <p class="text-zinc-400 leading-relaxed">
+        DLP, EDR/XDR, PAM, Threat Modeling, Security Architecture, Security Project Management.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.cloud.header">Cloud &amp; Containers</h3>
+      <p class="text-zinc-400 leading-relaxed">
+        AWS, Azure, GCP, Docker, Kubernetes, serverless functions, SaaS platforms.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.os.header">Operating Systems</h3>
+      <p class="text-zinc-400 leading-relaxed">
+        Linux (Kali, Arch), Windows.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.tools.header">Security Tools</h3>
+      <p class="text-zinc-400 leading-relaxed">
+        Burp Suite, Hydra, Dirb, Mimikatz, Nmap, Wireshark, Metasploit, Splunk, Darktrace,
+        SentinelOne, Elastic, Trend Micro Suite, OpenCTI.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.prog.header">Programming &amp; Scripting</h3>
+      <p class="text-zinc-400 leading-relaxed">
+        Python, SQL.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.other.header">Other Competencies</h3>
+      <p class="text-zinc-400 leading-relaxed">
+        Web &amp; API Security (OWASP Top 10 / API Top 10), Malware Analysis, Documentation &amp; Reporting.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.ai.header">AI Applied to Security</h3>
+      <p class="text-zinc-400 leading-relaxed" data-i18n="skills.cat.ai.body">
+        Anomaly detection with ML models, LLM-assisted threat hunting, MCP/AI pipeline
+        hardening, AI red teaming, prompt injection testing.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contacto" class="py-24 px-6 max-w-6xl mx-auto border-t border-line">
+  <h2 class="font-mono text-accent text-sm mb-12" data-i18n="contact.heading">04 / Contact</h2>
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <a href="mailto:hernanmargibay@gmail.com"
+       class="border border-line rounded-lg p-6 hover:border-accent/60 transition-colors bg-panel">
+      <p class="font-mono text-xs text-mute mb-2">Email</p>
+      <p class="text-zinc-200">hernanmargibay@gmail.com</p>
+    </a>
+
+    <a href="https://github.com/0xherni" target="_blank" rel="noopener noreferrer"
+       class="border border-line rounded-lg p-6 hover:border-accent/60 transition-colors bg-panel">
+      <p class="font-mono text-xs text-mute mb-2">GitHub</p>
+      <p class="text-zinc-200">github.com/0xherni</p>
+    </a>
+
+    <a href="https://www.linkedin.com/in/hernan-argibay/" target="_blank" rel="noopener noreferrer"
+       class="border border-line rounded-lg p-6 hover:border-accent/60 transition-colors bg-panel">
+      <p class="font-mono text-xs text-mute mb-2">LinkedIn</p>
+      <p class="text-zinc-200">linkedin.com/in/hernan-argibay</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="border-t border-line py-10 px-6 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+  <p class="font-mono text-xs text-mute">© <span id="year"></span> Hernán Argibay — Cybersecurity Analyst</p>
+  <a href="#top" class="font-mono text-xs text-mute hover:text-accent transition-colors" data-i18n="footer.backToTop">↑ back to top</a>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

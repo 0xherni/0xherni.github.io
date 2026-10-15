@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anomaly Detection API — Hernán Argibay</title>
+<meta name="description" content="Caso de estudio: backend de detección de anomalías con IA (Python, FastAPI, Isolation Forest).">
+
+<!-- CONTENIDO DE EJEMPLO: reemplazar texto, screenshots y código real antes de publicar. Buscá "EDITAR". -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0a0a0b',
+          panel: '#111114',
+          line: '#222226',
+          mute: '#8a8a92',
+          accent: '#ff3b3b',
+        },
+        fontFamily: {
+          mono: ['JetBrains Mono', 'monospace'],
+          sans: ['Space Grotesk', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+</head>
+
+<body class="bg-ink text-zinc-200 font-sans antialiased">
+
+<!-- ===== NAV ===== -->
+<header class="fixed top-0 inset-x-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md">
+  <nav class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="../index.html#proyectos" class="font-mono text-sm text-accent tracking-tight">← volver a proyectos</a>
+    <a href="https://github.com/0xherni" target="_blank" rel="noopener noreferrer"
+       class="font-mono text-sm border border-line px-3 py-1.5 rounded hover:border-accent hover:text-accent transition-colors">
+      GitHub ↗
+    </a>
+  </nav>
+</header>
+
+<!-- ===== ARTÍCULO ===== -->
+<article class="pt-40 pb-28 px-6 max-w-3xl mx-auto">
+
+  <!-- Header -->
+  <header class="mb-12">
+    <p class="font-mono text-accent text-sm mb-4">// caso de estudio</p>
+    <h1 class="font-sans font-700 text-4xl md:text-5xl leading-tight tracking-tight text-zinc-50 mb-6">
+      Anomaly Detection API
+    </h1>
+    <p class="text-lg text-zinc-400 leading-relaxed">
+      Backend de detección de anomalías con IA, orientado a identificar comportamiento
+      atípico en flujos de datos en tiempo real.
+    </p>
+    <div class="flex flex-wrap gap-2 mt-6">
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Python</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">FastAPI</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Isolation Forest</span>
+      <span class="font-mono text-xs text-accent border border-accent/30 rounded-full px-2 py-1">F1 0.92</span>
+    </div>
+  </header>
+
+  <!-- Imagen / screenshot principal: PLACEHOLDER -->
+  <div class="w-full aspect-video rounded-lg border-2 border-dashed border-line flex items-center justify-center mb-16">
+    <span class="font-mono text-xs text-mute">EDITAR: screenshot principal del proyecto</span>
+  </div>
+
+  <!-- Cuerpo -->
+  <div class="space-y-16">
+
+    <section>
+      <h2 class="font-mono text-accent text-sm mb-4">01 / El problema</h2>
+      <p class="text-zinc-300 leading-relaxed text-lg">
+        Texto de ejemplo — describí acá el contexto: qué tipo de datos se monitorean,
+        por qué la detección manual de anomalías no escalaba, y qué riesgo de seguridad
+        u operativo motivó este desarrollo.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="font-mono text-accent text-sm mb-4">02 / Arquitectura</h2>
+      <p class="text-zinc-300 leading-relaxed text-lg mb-6">
+        Texto de ejemplo — explicá el diseño del sistema: ingesta de datos, preprocesamiento,
+        el modelo Isolation Forest, y cómo se expone todo a través de la API en FastAPI.
+      </p>
+      <div class="w-full aspect-[16/9] rounded-lg border-2 border-dashed border-line flex items-center justify-center">
+        <span class="font-mono text-xs text-mute">EDITAR: diagrama de arquitectura</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="font-mono text-accent text-sm mb-4">03 / Implementación</h2>
+      <p class="text-zinc-300 leading-relaxed text-lg mb-6">
+        Texto de ejemplo — pasos clave del desarrollo: entrenamiento del modelo, validación,
+        endpoints expuestos, decisiones de performance.
+      </p>
+      <pre class="bg-panel border border-line rounded-lg p-5 overflow-x-auto font-mono text-sm text-zinc-300"><code># EDITAR: reemplazar por snippet real
+from sklearn.ensemble import IsolationForest
+
+model = IsolationForest(contamination=0.01, random_state=42)
+model.fit(X_train)
+
+predictions = model.predict(X_new)
+</code></pre>
+    </section>
+
+    <section>
+      <h2 class="font-mono text-accent text-sm mb-4">04 / Resultados</h2>
+      <p class="text-zinc-300 leading-relaxed text-lg mb-6">
+        Texto de ejemplo — resultados obtenidos (F1 0.92), comparación contra baseline,
+        impacto en tiempos de detección.
+      </p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="w-full aspect-video rounded-lg border-2 border-dashed border-line flex items-center justify-center">
+          <span class="font-mono text-xs text-mute">EDITAR: screenshot dashboard/métricas</span>
+        </div>
+        <div class="w-full aspect-video rounded-lg border-2 border-dashed border-line flex items-center justify-center">
+          <span class="font-mono text-xs text-mute">EDITAR: screenshot ejemplo de detección</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="font-mono text-accent text-sm mb-4">05 / Conclusiones</h2>
+      <p class="text-zinc-300 leading-relaxed text-lg">
+        Texto de ejemplo — qué aprendiste, qué harías distinto, próximos pasos o mejoras
+        planeadas para el proyecto.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- CTA final -->
+  <div class="mt-20 pt-10 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
+    <a href="../index.html#proyectos" class="font-mono text-sm text-accent hover:underline">← volver a proyectos</a>
+    <a href="../index.html#contacto" class="font-mono text-sm border border-line px-5 py-3 rounded hover:border-accent hover:text-accent transition-colors">
+      Hablemos del proyecto
+    </a>
+  </div>
+
+</article>
+
+<!-- ===== FOOTER ===== -->
+<footer class="border-t border-line py-10 px-6 max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+  <p class="font-mono text-xs text-mute">© <span id="year"></span> Hernán Argibay — Cybersecurity Analyst</p>
+  <a href="../index.html" class="font-mono text-xs text-mute hover:text-accent transition-colors">volver al portfolio</a>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
