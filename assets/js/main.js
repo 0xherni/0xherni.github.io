@@ -26,7 +26,6 @@ const translations = {
     'skills.cat.prog.header': 'Programming & Scripting',
     'skills.cat.other.header': 'Other Competencies',
     'skills.cat.ai.header': 'AI Applied to Security',
-    'skills.cat.ai.body': 'Anomaly detection with ML models, MCP/AI pipeline hardening, prompt injection testing.',
     'skills.ai.1': 'Anomaly detection with ML models',
     'skills.ai.3': 'MCP/AI pipeline hardening',
     'skills.ai.5': 'Prompt injection testing',
@@ -65,7 +64,6 @@ const translations = {
     'skills.cat.prog.header': 'Programación y Scripting',
     'skills.cat.other.header': 'Otras Competencias',
     'skills.cat.ai.header': 'IA Aplicada a Seguridad',
-    'skills.cat.ai.body': 'Detección de anomalías con modelos de ML, hardening de pipelines MCP/IA, prompt injection testing.',
     'skills.ai.1': 'Detección de anomalías con modelos de ML',
     'skills.ai.3': 'Hardening de pipelines MCP/IA',
     'skills.ai.5': 'Prompt injection testing',
@@ -164,7 +162,7 @@ window.addEventListener('scroll', () => {
 window.addEventListener('resize', onScroll);
 onScroll();
 
-// ===== Variante experimental: scroll snap (?snap) =====
+// ===== Scroll snap: secciones, tablero, skills, contacto y traza de fondo =====
 if (document.documentElement.classList.contains('snap')) {
   const sections = [...document.querySelectorAll('body > section')];
   const navLinks = document.querySelectorAll('header nav a[data-i18n^="nav."]');

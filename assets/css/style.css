@@ -95,7 +95,7 @@ html {
   will-change: transform;
 }
 
-/* ===== Variante experimental: scroll snap (?snap) ===== */
+/* ===== Scroll snap (clase .snap en <html>) ===== */
 html.snap {
   scroll-snap-type: y mandatory;
 }
@@ -332,15 +332,7 @@ html.snap section.is-active .reveal-item {
   }
 }
 
-/* ===== Tablero de proyectos (solo modo snap) ===== */
-.board {
-  display: none;
-}
-
-html.snap #proyectos > .grid {
-  display: none;
-}
-
+/* ===== Tablero de proyectos ===== */
 html.snap .board {
   display: flex;
   gap: 1rem;
@@ -620,15 +612,7 @@ html.snap .board > .reveal-item {
   border-color: #ff3b3b;
 }
 
-/* ===== Índice + panel de skills (solo modo snap) ===== */
-.skills-ix {
-  display: none;
-}
-
-html.snap #skills > .grid {
-  display: none;
-}
-
+/* ===== Índice + panel de skills ===== */
 html.snap .skills-ix {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -887,15 +871,7 @@ html.snap .skills-ix {
   }
 }
 
-/* ===== Contacto: mensaje + lista (solo modo snap) ===== */
-.contact-ix {
-  display: none;
-}
-
-html.snap #contacto > .grid {
-  display: none;
-}
-
+/* ===== Contacto: mensaje + lista ===== */
 html.snap .contact-ix {
   display: grid;
   grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
