@@ -7,6 +7,7 @@
 <meta name="description" content="Cybersecurity Analyst portfolio based in Buenos Aires. Threat detection, security architecture and AI applied to security.">
 
 
+<!--
   i18n: default language is English (lang="en"). Spanish copy lives in the
   translations dictionary in assets/js/main.js, keyed by data-i18n attributes.
 -->
@@ -16,6 +17,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<script>
+  // Variante experimental: abrir con ?snap para activar scroll snap.
+  if (new URLSearchParams(location.search).has('snap')) document.documentElement.classList.add('snap');
+</script>
 
 <script>
   tailwind.config = {
@@ -60,12 +65,14 @@
       </button>
     </div>
   </nav>
+  <div class="scroll-progress" aria-hidden="true"></div>
 </header>
 
 <!-- ===== HERO ===== -->
 <section id="top" class="relative pt-40 pb-28 px-6 max-w-6xl mx-auto">
-  <div class="grid md:grid-cols-[1fr_auto] gap-12 items-start">
-    <div>
+  <div class="hero-grid" data-parallax="0.4" aria-hidden="true"></div>
+  <div class="relative grid md:grid-cols-[1fr_auto] gap-12 items-start">
+    <div data-parallax="0.1">
       <p class="font-mono text-accent text-sm mb-5">// Buenos Aires, Argentina</p>
       <h1 class="font-sans font-700 text-5xl sm:text-6xl md:text-7xl leading-[1.05] tracking-tight text-zinc-50">
         <span class="text-mute" id="name-scramble" data-text="Hernán Argibay">Hernán Argibay</span><br>
@@ -90,7 +97,7 @@
     </div>
 
     <!-- Profile photo -->
-    <figure class="profile-card w-64 sm:w-72 lg:w-80 shrink-0 mx-auto md:mx-0 order-first md:order-none">
+    <figure data-parallax="0.25" class="profile-card w-64 sm:w-72 lg:w-80 shrink-0 mx-auto md:mx-0 order-first md:order-none">
       <div class="profile-frame">
         <img src="assets/img/perfil.jpg" alt="Hernán Argibay" width="640" height="800" class="profile-img">
         <span class="profile-tint" aria-hidden="true"></span>
@@ -158,6 +165,63 @@
     </a>
 
   </div>
+  <!-- Variante snap: tablero de tiras (inspirado en killianherzer.com) -->
+  <div class="board">
+
+    <a href="proyectos/anomaly-detection-api.html" class="strip">
+      <div class="strip-visual strip-visual--scatter" aria-hidden="true">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMid slice"><g class="pts"><circle cx="186" cy="436" r="3"/><circle cx="188" cy="345" r="3"/><circle cx="149" cy="357" r="3"/><circle cx="261" cy="427" r="3"/><circle cx="257" cy="407" r="3"/><circle cx="222" cy="400" r="3"/><circle cx="108" cy="474" r="3"/><circle cx="228" cy="435" r="3"/><circle cx="107" cy="188" r="3"/><circle cx="151" cy="328" r="3"/><circle cx="217" cy="375" r="3"/><circle cx="229" cy="309" r="3"/><circle cx="217" cy="423" r="3"/><circle cx="164" cy="569" r="3"/><circle cx="231" cy="512" r="3"/><circle cx="166" cy="299" r="3"/><circle cx="181" cy="368" r="3"/><circle cx="235" cy="407" r="3"/><circle cx="175" cy="275" r="3"/><circle cx="171" cy="514" r="3"/><circle cx="156" cy="407" r="3"/><circle cx="223" cy="216" r="3"/><circle cx="203" cy="524" r="3"/><circle cx="89" cy="345" r="3"/><circle cx="194" cy="290" r="3"/><circle cx="227" cy="373" r="3"/><circle cx="119" cy="471" r="3"/><circle cx="237" cy="484" r="3"/><circle cx="279" cy="420" r="3"/><circle cx="207" cy="237" r="3"/><circle cx="234" cy="313" r="3"/><circle cx="175" cy="241" r="3"/><circle cx="147" cy="322" r="3"/><circle cx="271" cy="157" r="3"/><circle cx="120" cy="406" r="3"/><circle cx="279" cy="444" r="3"/><circle cx="96" cy="103" r="3"/><circle cx="220" cy="299" r="3"/><circle cx="138" cy="488" r="3"/><circle cx="261" cy="397" r="3"/><circle cx="214" cy="428" r="3"/><circle cx="288" cy="448" r="3"/><circle cx="229" cy="440" r="3"/><circle cx="114" cy="521" r="3"/><circle cx="253" cy="438" r="3"/><circle cx="91" cy="310" r="3"/><circle cx="246" cy="181" r="3"/><circle cx="190" cy="492" r="3"/><circle cx="128" cy="557" r="3"/><circle cx="230" cy="363" r="3"/><circle cx="218" cy="451" r="3"/><circle cx="207" cy="506" r="3"/><circle cx="164" cy="334" r="3"/><circle cx="257" cy="383" r="3"/><circle cx="152" cy="484" r="3"/><circle cx="281" cy="331" r="3"/><circle cx="124" cy="365" r="3"/><circle cx="192" cy="347" r="3"/><circle cx="277" cy="267" r="3"/><circle cx="269" cy="240" r="3"/><circle cx="157" cy="449" r="3"/><circle cx="262" cy="474" r="3"/><circle cx="219" cy="396" r="3"/><circle cx="208" cy="443" r="3"/><circle cx="190" cy="411" r="3"/><circle cx="231" cy="380" r="3"/><circle cx="242" cy="442" r="3"/><circle cx="311" cy="416" r="3"/><circle cx="176" cy="339" r="3"/><circle cx="199" cy="482" r="3"/><circle cx="181" cy="422" r="3"/><circle cx="301" cy="98" r="3"/><circle cx="138" cy="407" r="3"/><circle cx="222" cy="406" r="3"/><circle cx="176" cy="452" r="3"/><circle cx="216" cy="323" r="3"/><circle cx="334" cy="419" r="3"/><circle cx="170" cy="369" r="3"/><circle cx="188" cy="373" r="3"/><circle cx="50" cy="326" r="3"/><circle cx="255" cy="251" r="3"/><circle cx="196" cy="485" r="3"/><circle cx="247" cy="544" r="3"/><circle cx="106" cy="341" r="3"/><circle cx="181" cy="449" r="3"/><circle cx="260" cy="85" r="3"/><circle cx="260" cy="221" r="3"/><circle cx="238" cy="216" r="3"/><circle cx="210" cy="511" r="3"/><circle cx="192" cy="401" r="3"/></g><circle cx="60" cy="90" r="4" class="o"/><circle cx="60" cy="90" r="12" class="ring"/><circle cx="345" cy="140" r="4" class="o"/><circle cx="345" cy="140" r="12" class="ring"/><circle cx="40" cy="620" r="4" class="o"/><circle cx="40" cy="620" r="12" class="ring"/><circle cx="330" cy="640" r="4" class="o"/><circle cx="330" cy="640" r="12" class="ring"/><circle cx="360" cy="420" r="4" class="o"/><circle cx="360" cy="420" r="12" class="ring"/></svg>
+      </div>
+      <span class="strip-corner tl"></span><span class="strip-corner tr"></span><span class="strip-corner bl"></span><span class="strip-corner br"></span>
+      <div class="strip-header">
+        <span class="strip-barcode" aria-hidden="true"></span>
+        <span class="strip-status">ML · Detection<i class="strip-dot"></i></span>
+      </div>
+      <span class="strip-num" aria-hidden="true">01</span>
+      <div class="strip-details">
+        <span class="strip-id">#01 · F1 0.92</span>
+        <h3 class="strip-title">Anomaly Detection API</h3>
+        <p class="strip-desc" data-i18n="projects.card1.desc">AI-powered anomaly detection backend designed to identify atypical behavior in real-time data streams.</p>
+        <div class="strip-icons"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg" alt="Python" width="20" height="20"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/fastapi.svg" alt="FastAPI" width="20" height="20"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/scikitlearn.svg" alt="scikit-learn" width="20" height="20"></div>
+        <span class="strip-access" data-i18n="projects.cta">View full case →</span>
+      </div>
+    </a>
+
+    <a href="proyectos/mcp-ai-security.html" class="strip">
+      <div class="strip-visual strip-visual--jwt" aria-hidden="true">
+        <p><span class="jwt-h">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-p">eyJzdWIiOiJtY3AtY2xpZW50IiwiYXVkIjoibWNwLXNlcnZlciIsInNjb3BlIjoidG9vbHM6cmVhZCIsImV4cCI6MTc2NzIyNTYwMH0</span>.<span class="jwt-s">B8pHeEIxsZr0WHLO77n8WfT5XRQ4Gjp4MlY0e5_85pzXAHrop1jMpBXVqR7oY8i2</span> <span class="jwt-h">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-p">eyJzdWIiOiJtY3AtY2xpZW50IiwiYXVkIjoibWNwLXNlcnZlciIsInNjb3BlIjoidG9vbHM6cmVhZCIsImV4cCI6MTc2NzIyNTYwMH0</span>.<span class="jwt-s">B8pHeEIxsZr0WHLO77n8WfT5XRQ4Gjp4MlY0e5_85pzXAHrop1jMpBXVqR7oY8i2</span> <span class="jwt-h">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-p">eyJzdWIiOiJtY3AtY2xpZW50IiwiYXVkIjoibWNwLXNlcnZlciIsInNjb3BlIjoidG9vbHM6cmVhZCIsImV4cCI6MTc2NzIyNTYwMH0</span>.<span class="jwt-s">B8pHeEIxsZr0WHLO77n8WfT5XRQ4Gjp4MlY0e5_85pzXAHrop1jMpBXVqR7oY8i2</span> <span class="jwt-h">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-p">eyJzdWIiOiJtY3AtY2xpZW50IiwiYXVkIjoibWNwLXNlcnZlciIsInNjb3BlIjoidG9vbHM6cmVhZCIsImV4cCI6MTc2NzIyNTYwMH0</span>.<span class="jwt-s">B8pHeEIxsZr0WHLO77n8WfT5XRQ4Gjp4MlY0e5_85pzXAHrop1jMpBXVqR7oY8i2</span> <span class="jwt-h">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-p">eyJzdWIiOiJtY3AtY2xpZW50IiwiYXVkIjoibWNwLXNlcnZlciIsInNjb3BlIjoidG9vbHM6cmVhZCIsImV4cCI6MTc2NzIyNTYwMH0</span>.<span class="jwt-s">B8pHeEIxsZr0WHLO77n8WfT5XRQ4Gjp4MlY0e5_85pzXAHrop1jMpBXVqR7oY8i2</span> <span class="jwt-h">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-p">eyJzdWIiOiJtY3AtY2xpZW50IiwiYXVkIjoibWNwLXNlcnZlciIsInNjb3BlIjoidG9vbHM6cmVhZCIsImV4cCI6MTc2NzIyNTYwMH0</span>.<span class="jwt-s">B8pHeEIxsZr0WHLO77n8WfT5XRQ4Gjp4MlY0e5_85pzXAHrop1jMpBXVqR7oY8i2</span></p>
+      </div>
+      <span class="strip-corner tl"></span><span class="strip-corner tr"></span><span class="strip-corner bl"></span><span class="strip-corner br"></span>
+      <div class="strip-header">
+        <span class="strip-barcode" aria-hidden="true"></span>
+        <span class="strip-status">Research<i class="strip-dot"></i></span>
+      </div>
+      <span class="strip-num" aria-hidden="true">02</span>
+      <div class="strip-details">
+        <span class="strip-id">#02 · JWT · Secrets</span>
+        <h3 class="strip-title">MCP / AI Security</h3>
+        <p class="strip-desc" data-i18n="projects.card2.desc">Research into MCP/AI security, focused on JWT authentication and secrets management.</p>
+        <div class="strip-icons"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg" alt="Python" width="20" height="20"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/jsonwebtokens.svg" alt="JWT" width="20" height="20"></div>
+        <span class="strip-access" data-i18n="projects.cta">View full case →</span>
+      </div>
+    </a>
+
+    <a href="https://github.com/0xherni" target="_blank" rel="noopener noreferrer" class="strip strip--pending">
+      <div class="strip-visual strip-visual--hatch" aria-hidden="true"></div>
+      <span class="strip-corner tl"></span><span class="strip-corner tr"></span><span class="strip-corner bl"></span><span class="strip-corner br"></span>
+      <div class="strip-header">
+        <span class="strip-barcode" aria-hidden="true"></span>
+        <span class="strip-status"><span data-i18n="projects.next.status">In progress</span><i class="strip-dot"></i></span>
+      </div>
+      <span class="strip-num" aria-hidden="true">03</span>
+      <div class="strip-details">
+        <span class="strip-id">#03</span>
+        <h3 class="strip-title" data-i18n="projects.next.title">Next case</h3>
+        <span class="strip-access" data-i18n="projects.next.cta">Follow on GitHub →</span>
+      </div>
+    </a>
+
+  </div>
 </section>
 
 <!-- ===== SKILLS ===== -->
@@ -169,7 +233,7 @@
     <div>
       <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.security.header">Security Engineering</h3>
       <p class="text-zinc-400 leading-relaxed">
-        DLP, EDR/XDR, PAM, Threat Modeling, Security Architecture, Security Project Management.
+        DLP, EDR/XDR, Threat Modeling, Security Architecture.
       </p>
     </div>
 
@@ -212,11 +276,115 @@
     <div>
       <h3 class="font-mono text-zinc-50 text-sm mb-3 uppercase tracking-wide" data-i18n="skills.cat.ai.header">AI Applied to Security</h3>
       <p class="text-zinc-400 leading-relaxed" data-i18n="skills.cat.ai.body">
-        Anomaly detection with ML models, LLM-assisted threat hunting, MCP/AI pipeline
-        hardening, AI red teaming, prompt injection testing.
+        Anomaly detection with ML models, MCP/AI pipeline hardening, prompt injection testing.
       </p>
     </div>
 
+  </div>
+  <!-- Variante snap: índice + panel de skills -->
+  <div class="skills-ix">
+    <div class="ix-list" role="tablist" aria-label="Skills">
+        <button type="button" role="tab" id="ix-tab-security" aria-controls="ix-panel-security" aria-selected="true" class="ix-tab is-active">
+          <span class="ix-num">01</span><span class="ix-name" data-i18n="skills.cat.security.header">Security Engineering</span><span class="ix-count">04</span>
+        </button>
+        <button type="button" role="tab" id="ix-tab-cloud" aria-controls="ix-panel-cloud" aria-selected="false" class="ix-tab">
+          <span class="ix-num">02</span><span class="ix-name" data-i18n="skills.cat.cloud.header">Cloud &amp; Containers</span><span class="ix-count">07</span>
+        </button>
+        <button type="button" role="tab" id="ix-tab-os" aria-controls="ix-panel-os" aria-selected="false" class="ix-tab">
+          <span class="ix-num">03</span><span class="ix-name" data-i18n="skills.cat.os.header">Operating Systems</span><span class="ix-count">03</span>
+        </button>
+        <button type="button" role="tab" id="ix-tab-tools" aria-controls="ix-panel-tools" aria-selected="false" class="ix-tab">
+          <span class="ix-num">04</span><span class="ix-name" data-i18n="skills.cat.tools.header">Security Tools</span><span class="ix-count">13</span>
+        </button>
+        <button type="button" role="tab" id="ix-tab-prog" aria-controls="ix-panel-prog" aria-selected="false" class="ix-tab">
+          <span class="ix-num">05</span><span class="ix-name" data-i18n="skills.cat.prog.header">Programming &amp; Scripting</span><span class="ix-count">02</span>
+        </button>
+        <button type="button" role="tab" id="ix-tab-other" aria-controls="ix-panel-other" aria-selected="false" class="ix-tab">
+          <span class="ix-num">06</span><span class="ix-name" data-i18n="skills.cat.other.header">Other Competencies</span><span class="ix-count">03</span>
+        </button>
+        <button type="button" role="tab" id="ix-tab-ai" aria-controls="ix-panel-ai" aria-selected="false" class="ix-tab">
+          <span class="ix-num">07</span><span class="ix-name" data-i18n="skills.cat.ai.header">AI Applied to Security</span><span class="ix-count">03</span>
+        </button>
+    </div>
+    <div class="ix-panels">
+      <div role="tabpanel" id="ix-panel-security" aria-labelledby="ix-tab-security" class="ix-panel is-active">
+        <div class="ix-panel-head"><span class="ix-panel-title"><i class="ix-dot"></i><span data-i18n="skills.cat.security.header">Security Engineering</span></span><span class="ix-panel-meta">01 / 07</span></div>
+        <span class="ix-panel-num" aria-hidden="true">01</span>
+        <ul class="ix-items">
+            <li style="--j:0"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/dlp.svg);mask-image:url(assets/icons/dlp.svg)"></span><span>DLP</span></li>
+            <li style="--j:1"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/edr.svg);mask-image:url(assets/icons/edr.svg)"></span><span>EDR/XDR</span></li>
+            <li style="--j:2"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/threat-modeling.svg);mask-image:url(assets/icons/threat-modeling.svg)"></span><span>Threat Modeling</span></li>
+            <li style="--j:3"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/architecture.svg);mask-image:url(assets/icons/architecture.svg)"></span><span>Security Architecture</span></li>
+        </ul>
+      </div>
+      <div role="tabpanel" id="ix-panel-cloud" aria-labelledby="ix-tab-cloud" class="ix-panel" hidden>
+        <div class="ix-panel-head"><span class="ix-panel-title"><i class="ix-dot"></i><span data-i18n="skills.cat.cloud.header">Cloud &amp; Containers</span></span><span class="ix-panel-meta">02 / 07</span></div>
+        <span class="ix-panel-num" aria-hidden="true">02</span>
+        <ul class="ix-items">
+            <li style="--j:0"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/amazonwebservices.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/amazonwebservices.svg)"></span><span>AWS</span></li>
+            <li style="--j:1"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/cloud.svg);mask-image:url(assets/icons/cloud.svg)"></span><span>Azure</span></li>
+            <li style="--j:2"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googlecloud.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googlecloud.svg)"></span><span>GCP</span></li>
+            <li style="--j:3"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg)"></span><span>Docker</span></li>
+            <li style="--j:4"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg)"></span><span>Kubernetes</span></li>
+            <li style="--j:5"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/serverless.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/serverless.svg)"></span><span>Serverless functions</span></li>
+            <li style="--j:6"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/saas.svg);mask-image:url(assets/icons/saas.svg)"></span><span>SaaS platforms</span></li>
+        </ul>
+      </div>
+      <div role="tabpanel" id="ix-panel-os" aria-labelledby="ix-tab-os" class="ix-panel" hidden>
+        <div class="ix-panel-head"><span class="ix-panel-title"><i class="ix-dot"></i><span data-i18n="skills.cat.os.header">Operating Systems</span></span><span class="ix-panel-meta">03 / 07</span></div>
+        <span class="ix-panel-num" aria-hidden="true">03</span>
+        <ul class="ix-items">
+            <li style="--j:0"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kalilinux.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kalilinux.svg)"></span><span>Kali Linux</span></li>
+            <li style="--j:1"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/archlinux.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/archlinux.svg)"></span><span>Arch Linux</span></li>
+            <li style="--j:2"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/windows-xp.svg);mask-image:url(assets/icons/windows-xp.svg)"></span><span>Windows</span></li>
+        </ul>
+      </div>
+      <div role="tabpanel" id="ix-panel-tools" aria-labelledby="ix-tab-tools" class="ix-panel" hidden>
+        <div class="ix-panel-head"><span class="ix-panel-title"><i class="ix-dot"></i><span data-i18n="skills.cat.tools.header">Security Tools</span></span><span class="ix-panel-meta">04 / 07</span></div>
+        <span class="ix-panel-num" aria-hidden="true">04</span>
+        <ul class="ix-items">
+            <li style="--j:0"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/burpsuite.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/burpsuite.svg)"></span><span>Burp Suite</span></li>
+            <li style="--j:1"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/wireshark.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/wireshark.svg)"></span><span>Wireshark</span></li>
+            <li style="--j:2"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/metasploit.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/metasploit.svg)"></span><span>Metasploit</span></li>
+            <li style="--j:3"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/splunk.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/splunk.svg)"></span><span>Splunk</span></li>
+            <li style="--j:4"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/elastic.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/elastic.svg)"></span><span>Elastic</span></li>
+            <li style="--j:5"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/trendmicro.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/trendmicro.svg)"></span><span>Trend Micro Suite</span></li>
+            <li style="--j:6"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/radar.svg);mask-image:url(assets/icons/radar.svg)"></span><span>Nmap</span></li>
+            <li style="--j:7"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/brute-force.svg);mask-image:url(assets/icons/brute-force.svg)"></span><span>Hydra</span></li>
+            <li style="--j:8"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/dir-scan.svg);mask-image:url(assets/icons/dir-scan.svg)"></span><span>Dirb</span></li>
+            <li style="--j:9"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/memory.svg);mask-image:url(assets/icons/memory.svg)"></span><span>Mimikatz</span></li>
+            <li style="--j:10"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/eye.svg);mask-image:url(assets/icons/eye.svg)"></span><span>Darktrace</span></li>
+            <li style="--j:11"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/sentinelone.svg);mask-image:url(assets/icons/sentinelone.svg)"></span><span>SentinelOne</span></li>
+            <li style="--j:12"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/graph.svg);mask-image:url(assets/icons/graph.svg)"></span><span>OpenCTI</span></li>
+        </ul>
+      </div>
+      <div role="tabpanel" id="ix-panel-prog" aria-labelledby="ix-tab-prog" class="ix-panel" hidden>
+        <div class="ix-panel-head"><span class="ix-panel-title"><i class="ix-dot"></i><span data-i18n="skills.cat.prog.header">Programming &amp; Scripting</span></span><span class="ix-panel-meta">05 / 07</span></div>
+        <span class="ix-panel-num" aria-hidden="true">05</span>
+        <ul class="ix-items">
+            <li style="--j:0"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg)"></span><span>Python</span></li>
+            <li style="--j:1"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/database.svg);mask-image:url(assets/icons/database.svg)"></span><span>SQL</span></li>
+        </ul>
+      </div>
+      <div role="tabpanel" id="ix-panel-other" aria-labelledby="ix-tab-other" class="ix-panel" hidden>
+        <div class="ix-panel-head"><span class="ix-panel-title"><i class="ix-dot"></i><span data-i18n="skills.cat.other.header">Other Competencies</span></span><span class="ix-panel-meta">06 / 07</span></div>
+        <span class="ix-panel-num" aria-hidden="true">06</span>
+        <ul class="ix-items">
+            <li style="--j:0"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/owasp.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/owasp.svg)"></span><span>Web &amp; API Security (OWASP Top 10 / API Top 10)</span></li>
+            <li style="--j:1"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/bug.svg);mask-image:url(assets/icons/bug.svg)"></span><span>Malware Analysis</span></li>
+            <li style="--j:2"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/report.svg);mask-image:url(assets/icons/report.svg)"></span><span>Documentation &amp; Reporting</span></li>
+        </ul>
+      </div>
+      <div role="tabpanel" id="ix-panel-ai" aria-labelledby="ix-tab-ai" class="ix-panel" hidden>
+        <div class="ix-panel-head"><span class="ix-panel-title"><i class="ix-dot"></i><span data-i18n="skills.cat.ai.header">AI Applied to Security</span></span><span class="ix-panel-meta">07 / 07</span></div>
+        <span class="ix-panel-num" aria-hidden="true">07</span>
+        <ul class="ix-items">
+            <li style="--j:0"><span class="ix-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/scikitlearn.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/scikitlearn.svg)"></span><span data-i18n="skills.ai.1">Anomaly detection with ML models</span></li>
+            <li style="--j:1"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/pipeline-lock.svg);mask-image:url(assets/icons/pipeline-lock.svg)"></span><span data-i18n="skills.ai.3">MCP/AI pipeline hardening</span></li>
+            <li style="--j:2"><span class="ix-icon" style="-webkit-mask-image:url(assets/icons/prompt.svg);mask-image:url(assets/icons/prompt.svg)"></span><span data-i18n="skills.ai.5">Prompt injection testing</span></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -244,6 +412,45 @@
       <p class="text-zinc-200">linkedin.com/in/hernan-argibay</p>
     </a>
 
+  </div>
+  <!-- Variante snap: mensaje + lista de contacto -->
+  <div class="contact-ix">
+    <div class="ct-intro">
+      <p class="ct-status"><i class="ct-pulse" aria-hidden="true"></i><span data-i18n="contact.status">Available</span></p>
+      <p class="ct-title"><span class="ct-phrase">Let's talk.</span><span class="ct-cursor" aria-hidden="true"></span></p>
+      <p class="ct-sub"><span data-i18n="contact.sub.pre">Open to </span><mark class="ct-em" data-i18n="contact.sub.em">security roles</mark><span data-i18n="contact.sub.post">.</span></p>
+    </div>
+
+    <ul class="ct-list">
+      <li class="ct-row">
+        <span class="ct-idx">01</span>
+        <span class="ix-icon ct-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/gmail.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/gmail.svg)"></span>
+        <a class="ct-main" href="mailto:hernanmargibay@gmail.com">
+          <span class="ct-label">Email</span>
+          <span class="ct-value">hernanmargibay@gmail.com</span>
+        </a>
+        <button type="button" class="ct-copy" data-copy="hernanmargibay@gmail.com" data-i18n="contact.copy">Copy</button>
+        <span class="ct-arrow" aria-hidden="true">→</span>
+      </li>
+      <li class="ct-row">
+        <span class="ct-idx">02</span>
+        <span class="ix-icon ct-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/github.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/github.svg)"></span>
+        <a class="ct-main" href="https://github.com/0xherni" target="_blank" rel="noopener noreferrer">
+          <span class="ct-label">GitHub</span>
+          <span class="ct-value">github.com/0xherni</span>
+        </a>
+        <span class="ct-arrow" aria-hidden="true">→</span>
+      </li>
+      <li class="ct-row">
+        <span class="ct-idx">03</span>
+        <span class="ix-icon ct-icon" style="-webkit-mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/linkedin.svg);mask-image:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/linkedin.svg)"></span>
+        <a class="ct-main" href="https://www.linkedin.com/in/hernan-argibay/" target="_blank" rel="noopener noreferrer">
+          <span class="ct-label">LinkedIn</span>
+          <span class="ct-value">linkedin.com/in/hernan-argibay</span>
+        </a>
+        <span class="ct-arrow" aria-hidden="true">→</span>
+      </li>
+    </ul>
   </div>
 </section>
 
