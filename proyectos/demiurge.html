@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demiurge — Hernán Argibay</title>
+<meta name="description" content="Case study: Demiurge, a Windows desktop app that tells you whether your PC is clean or infected and explains every finding in plain language.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0a0a0b',
+          panel: '#111114',
+          line: '#222226',
+          mute: '#8a8a92',
+          accent: '#ff3b3b',
+        },
+        fontFamily: {
+          mono: ['JetBrains Mono', 'monospace'],
+          sans: ['Space Grotesk', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+</head>
+
+<body class="project bg-ink text-zinc-200 font-sans antialiased">
+
+<!-- ===== NAV ===== -->
+<header class="fixed top-0 inset-x-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md">
+  <nav class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a data-i18n="nav.back" href="../index.html#proyectos" class="font-mono text-sm text-accent tracking-tight">← back to projects</a>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-1.5 font-mono text-sm" role="group" aria-label="Language selector">
+        <button type="button" data-lang="es" class="lang-btn flex items-center gap-1.5 px-2 py-1.5 rounded text-mute hover:text-accent transition-colors" aria-label="Español">
+          <span class="hidden sm:inline" aria-hidden="true">🇦🇷</span><span>ES</span>
+        </button>
+        <span class="text-line">/</span>
+        <button type="button" data-lang="en" class="lang-btn flex items-center gap-1.5 px-2 py-1.5 rounded text-accent transition-colors" aria-label="English">
+          <span class="hidden sm:inline" aria-hidden="true">🇺🇸</span><span>EN</span>
+        </button>
+      </div>
+      <a href="https://github.com/0xherni/demiurge" target="_blank" rel="noopener noreferrer"
+         class="font-mono text-sm border border-line px-3 py-1.5 rounded hover:border-accent hover:text-accent transition-colors">
+        GitHub ↗
+      </a>
+    </div>
+  </nav>
+  <div class="scroll-progress" aria-hidden="true"></div>
+</header>
+
+<!-- ===== ARTÍCULO ===== -->
+<article class="pt-40 pb-28 px-6 max-w-3xl mx-auto">
+
+  <!-- Header -->
+  <header class="mb-12">
+    <p data-i18n="kicker" class="font-mono text-accent text-sm mb-4">// case study · beta, discontinued</p>
+    <h1 class="font-sans font-700 text-4xl md:text-5xl leading-tight tracking-tight text-zinc-50 mb-6">
+      Demiurge
+    </h1>
+    <p data-i18n="lead" class="text-lg text-zinc-400 leading-relaxed">
+      A Windows 10/11 desktop app that answers one question: <span class="text-zinc-100">is my PC clean or infected?</span>
+      It collects the traces Windows leaves behind, runs them through several detection engines
+      and explains every finding in plain language.
+    </p>
+    <div class="flex flex-wrap gap-2 mt-6">
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">C# / .NET 10</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">WPF + WebView2</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">React + TypeScript</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">SQLite</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">YARA-X</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Sigma</span>
+      <span data-i18n="badge" class="font-mono text-xs text-accent border border-accent/30 rounded-full px-2 py-1">40 rules · 28 areas</span>
+    </div>
+  </header>
+
+  <!-- Aviso de estado -->
+  <aside class="mb-12 border-l-2 border-accent bg-panel px-5 py-4">
+    <p data-i18n="note.title" class="font-mono text-xs text-accent uppercase tracking-widest mb-2">Portfolio project, discontinued</p>
+    <p data-i18n="note.body" class="text-zinc-300 leading-relaxed">
+      Demiurge runs with administrator rights, the installer is unsigned and its detection was never
+      measured against real malware. Read the code rather than installing it on a machine you care about.
+      It went through a security audit and every issue found was fixed.
+    </p>
+  </aside>
+
+  <figure class="mb-16">
+    <a href="../assets/img/demiurge/home.webp" class="shot block"><img src="../assets/img/demiurge/home.webp" alt="Demiurge verdict screen showing a likely infection, with counts of dangerous findings and the first steps to take" width="1600" height="1012" class="w-full rounded-lg border border-line"></a>
+    <figcaption data-i18n="cap.home" class="font-mono text-xs text-mute mt-3">Verdict screen. Built-in sample data, not a real scan; the UI is in Spanish.</figcaption>
+  </figure>
+
+  <!-- Cuerpo -->
+  <div class="space-y-16">
+
+    <section>
+      <h2 data-i18n="h.1" class="proj-h2"><span class="proj-h2-num">01</span>The idea</h2>
+      <p data-i18n="p.1a" class="text-zinc-300 leading-relaxed text-lg mb-4">
+        Demiurge is a <span class="text-zinc-100">visibility and second-opinion tool, not an antivirus</span>:
+        no real-time protection, nothing running in the background, and it doesn't replace Microsoft Defender.
+      </p>
+      <p data-i18n="p.1b" class="text-zinc-300 leading-relaxed text-lg">
+        It's built for home users with no technical background. Every finding answers four questions —
+        what we found, why, how serious it is and what to do — with a hover glossary for technical words.
+        For people who want more, each card also has a technical view with raw data, the rules that fired
+        and the MITRE ATT&amp;CK techniques involved.
+      </p>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.2" class="proj-h2"><span class="proj-h2-num">02</span>What it looks at</h2>
+      <p data-i18n="p.2" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        It inspects 28 areas of Windows through native APIs, aimed at the threats that actually hit home users:
+        info-stealers, remote-access scams, "ClickFix" pasted commands, browser hijacking, rogue root certificates,
+        Defender exclusions, tampered apps and brute-force logons.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <span data-i18n="t.1" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Processes</span>
+        <span data-i18n="t.2" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Network &amp; DNS</span>
+        <span data-i18n="t.3" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Autostart: registry, services, tasks, WMI</span>
+        <span data-i18n="t.4" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Browsers &amp; extensions</span>
+        <span data-i18n="t.5" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Hosts &amp; proxy</span>
+        <span data-i18n="t.6" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Firewall rules</span>
+        <span data-i18n="t.7" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Root certificates</span>
+        <span data-i18n="t.8" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Accounts</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Drivers</span>
+        <span data-i18n="t.10" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Defender status &amp; history</span>
+        <span data-i18n="t.11" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Execution history</span>
+        <span data-i18n="t.12" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Typed commands</span>
+        <span data-i18n="t.13" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Event logs</span>
+        <span data-i18n="t.14" class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">System health</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.3" class="proj-h2"><span class="proj-h2-num">03</span>How it decides</h2>
+      <p data-i18n="p.3" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        Scoring happens <span class="text-zinc-100">per program, not per event</span>. Forty rules feed it:
+        a single weak signal stays informational, several together escalate. When engines disagree, the alarm
+        is lowered and the card says so — fewer scary false positives for people who can't judge them.
+      </p>
+      <div class="grid sm:grid-cols-2 gap-x-8 border-t border-line mb-8">
+        <div class="py-3 border-b border-line"><p data-i18n="e.1k" class="font-mono text-xs text-mute mb-1">Second opinion</p><p data-i18n="e.1v" class="text-zinc-200">Microsoft Defender, never deleting on its own</p></div>
+        <div class="py-3 border-b border-line"><p data-i18n="e.2k" class="font-mono text-xs text-mute mb-1">Malware traits in files</p><p data-i18n="e.2v" class="text-zinc-200">YARA-X + YARA Forge rules</p></div>
+        <div class="py-3 border-b border-line"><p data-i18n="e.3k" class="font-mono text-xs text-mute mb-1">Injected code</p><p class="text-zinc-200">HollowsHunter / PE-sieve</p></div>
+        <div class="py-3 border-b border-line"><p data-i18n="e.4k" class="font-mono text-xs text-mute mb-1">Event logs</p><p data-i18n="e.4v" class="text-zinc-200">Hayabusa + Sigma rules</p></div>
+        <div class="py-3 border-b border-line"><p data-i18n="e.5k" class="font-mono text-xs text-mute mb-1">Threat intel, matched locally</p><p class="text-zinc-200">abuse.ch, LOLBAS, LOLDrivers</p></div>
+        <div class="py-3 border-b border-line"><p data-i18n="e.6k" class="font-mono text-xs text-mute mb-1">Hash reputation, no uploads</p><p class="text-zinc-200">CIRCL, MalwareBazaar, VirusTotal</p></div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <figure>
+          <a href="../assets/img/demiurge/findings.webp" class="shot block"><img src="../assets/img/demiurge/findings.webp" alt="Finding card explaining what was found, why, how serious it is and what to do" width="1600" height="1012" loading="lazy" class="w-full rounded-lg border border-line"></a>
+          <figcaption data-i18n="cap.findings" class="font-mono text-xs text-mute mt-3">Finding card: what, why, how serious, what to do.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/img/demiurge/mimikatz.webp" class="shot block"><img src="../assets/img/demiurge/mimikatz.webp" alt="Technical view of a Mimikatz finding with the rules that fired, raw data and ATT&amp;CK techniques" width="1600" height="1012" loading="lazy" class="w-full rounded-lg border border-line"></a>
+          <figcaption data-i18n="cap.tech" class="font-mono text-xs text-mute mt-3">Technical view: rules that fired, raw data, ATT&amp;CK.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.4" class="proj-h2"><span class="proj-h2-num">04</span>Explain, then act</h2>
+      <p data-i18n="p.4" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        Findings turn into a step-by-step cleanup plan, a "what happened" timeline with real timestamps
+        (only linking events that involve the same file) and a diff against the previous scan.
+        Fixes run only with confirmation and are reversible: disable startup entries, quarantine (never delete),
+        remove extensions, restore browser, proxy and hosts settings. Everything can be undone except killing a process.
+      </p>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <figure>
+          <a href="../assets/img/demiurge/timeline.webp" class="shot block"><img src="../assets/img/demiurge/timeline.webp" alt="Timeline of events linked by the same file, with real timestamps" width="1600" height="1012" loading="lazy" class="w-full rounded-lg border border-line"></a>
+          <figcaption data-i18n="cap.timeline" class="font-mono text-xs text-mute mt-3">Timeline: real timestamps, linked by file.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/img/demiurge/plan.webp" class="shot block"><img src="../assets/img/demiurge/plan.webp" alt="Cleanup plan with ordered, reversible steps" width="1600" height="1012" loading="lazy" class="w-full rounded-lg border border-line"></a>
+          <figcaption data-i18n="cap.plan" class="font-mono text-xs text-mute mt-3">Cleanup plan: ordered, reversible steps.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.5" class="proj-h2"><span class="proj-h2-num">05</span>Under the hood</h2>
+      <p data-i18n="p.5" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        .NET 10 with WPF + WebView2 hosting a React 19 + TypeScript UI, SQLite for storage, WMI and P/Invoke
+        (WinVerifyTrust, iphlpapi, ntdll) for collection, and a WiX MSI installer. The engine runs in-process:
+        closing the window ends everything — no service, no scheduled task. Bundled tools are pinned by version
+        and SHA-256 and verified before every run.
+      </p>
+      <pre class="bg-panel border border-line rounded-lg p-5 overflow-x-auto font-mono text-sm text-zinc-300"><code data-i18n="code">src/Demiurge.Core   engine: collectors, intel, rules, scoring, storage, actions
+src/Demiurge.App    desktop app (WPF + WebView2) and its React UI
+src/Demiurge.Cli    console for development and diagnostics
+tests/              102 tests, including the attacks from the security audit</code></pre>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.6" class="proj-h2"><span class="proj-h2-num">06</span>Status</h2>
+      <p data-i18n="p.6" class="text-zinc-300 leading-relaxed text-lg">
+        Discontinued in October 2026 as a beta. It was calibrated for false positives on a real PC without admin
+        rights. Not verified: full behavior installed and elevated, actions on a real system, and detection against
+        real malware in VMs.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- CTA final -->
+  <div class="mt-20 pt-10 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
+    <a data-i18n="cta.back" href="../index.html#proyectos" class="font-mono text-sm text-accent hover:underline">← back to projects</a>
+    <a data-i18n="cta.gh" href="https://github.com/0xherni/demiurge" target="_blank" rel="noopener noreferrer"
+       class="font-mono text-sm border border-line px-5 py-3 rounded hover:border-accent hover:text-accent transition-colors">
+      Full details on GitHub ↗
+    </a>
+  </div>
+
+</article>
+
+<script>
+  // Traducción al español; el inglés es el texto del HTML
+  window.PAGE_I18N = {
+  "es": {
+    "title": "Demiurge — Hernán Argibay",
+    "nav.back": "← volver a proyectos",
+    "cta.back": "← volver a proyectos",
+    "kicker": "// caso de estudio · beta, discontinuado",
+    "lead": "Una app de escritorio para Windows 10/11 que responde una sola pregunta: <span class=\"text-zinc-100\">¿mi PC está limpia o infectada?</span> Junta los rastros que deja Windows, los pasa por varios motores de detección y explica cada hallazgo en lenguaje simple.",
+    "badge": "40 reglas · 28 áreas",
+    "note.title": "Proyecto de portfolio, discontinuado",
+    "note.body": "Demiurge corre con permisos de administrador, el instalador no está firmado y su detección nunca se midió contra malware real. Mejor leé el código antes que instalarlo en una máquina que te importe. Pasó por una auditoría de seguridad y se corrigió todo lo que se encontró.",
+    "cap.home": "Pantalla de veredicto. Datos de ejemplo de la app, no un escaneo real.",
+    "h.1": "<span class=\"proj-h2-num\">01</span>La idea",
+    "p.1a": "Demiurge es una <span class=\"text-zinc-100\">herramienta de visibilidad y segunda opinión, no un antivirus</span>: sin protección en tiempo real, nada corriendo en segundo plano, y no reemplaza a Microsoft Defender.",
+    "p.1b": "Está pensada para usuarios hogareños sin conocimientos técnicos. Cada hallazgo responde cuatro preguntas —qué encontramos, por qué, qué tan grave es y qué hacer— con un glosario al pasar el mouse sobre las palabras técnicas. Para quien quiere más, cada tarjeta tiene una vista técnica con los datos crudos, las reglas que se dispararon y las técnicas de MITRE ATT&amp;CK involucradas.",
+    "h.2": "<span class=\"proj-h2-num\">02</span>Qué revisa",
+    "p.2": "Revisa 28 áreas de Windows con APIs nativas, apuntando a las amenazas que de verdad afectan a usuarios hogareños: info-stealers, estafas de acceso remoto, comandos pegados tipo \"ClickFix\", secuestro del navegador, certificados raíz falsos, exclusiones en Defender, apps modificadas y logins por fuerza bruta.",
+    "t.1": "Procesos",
+    "t.2": "Red y DNS",
+    "t.3": "Arranque: registro, servicios, tareas, WMI",
+    "t.4": "Navegadores y extensiones",
+    "t.5": "Hosts y proxy",
+    "t.6": "Reglas de firewall",
+    "t.7": "Certificados raíz",
+    "t.8": "Cuentas",
+    "t.10": "Estado e historial de Defender",
+    "t.11": "Historial de ejecución",
+    "t.12": "Comandos tipeados",
+    "t.13": "Logs de eventos",
+    "t.14": "Salud del sistema",
+    "h.3": "<span class=\"proj-h2-num\">03</span>Cómo decide",
+    "p.3": "El puntaje se calcula <span class=\"text-zinc-100\">por programa, no por evento</span>. Lo alimentan cuarenta reglas: una señal débil sola queda como informativa, varias juntas escalan. Cuando los motores no coinciden, se baja la alarma y la tarjeta lo aclara: menos falsos positivos que asustan a quien no puede evaluarlos.",
+    "e.1k": "Segunda opinión",
+    "e.1v": "Microsoft Defender, sin borrar nada por su cuenta",
+    "e.2k": "Rasgos de malware en archivos",
+    "e.2v": "YARA-X + reglas de YARA Forge",
+    "e.3k": "Código inyectado",
+    "e.4k": "Logs de eventos",
+    "e.4v": "Hayabusa + reglas Sigma",
+    "e.5k": "Threat intel, comparada localmente",
+    "e.6k": "Reputación de hashes, sin subir archivos",
+    "cap.findings": "Tarjeta de hallazgo: qué, por qué, qué tan grave, qué hacer.",
+    "cap.tech": "Vista técnica: reglas que se dispararon, datos crudos, ATT&amp;CK.",
+    "h.4": "<span class=\"proj-h2-num\">04</span>Explicar, después actuar",
+    "p.4": "Los hallazgos se convierten en un plan de limpieza paso a paso, una línea de tiempo de \"qué pasó\" con horarios reales (que solo une eventos del mismo archivo) y una comparación contra el escaneo anterior. Las correcciones se aplican solo con confirmación y se pueden revertir: desactivar entradas de arranque, poner en cuarentena (nunca borrar), quitar extensiones, restaurar navegador, proxy y hosts. Todo se puede deshacer salvo cerrar un proceso.",
+    "cap.timeline": "Línea de tiempo: horarios reales, unidos por archivo.",
+    "cap.plan": "Plan de limpieza: pasos ordenados y reversibles.",
+    "h.5": "<span class=\"proj-h2-num\">05</span>Cómo está hecho",
+    "p.5": ".NET 10 con WPF + WebView2 que aloja una interfaz en React 19 + TypeScript, SQLite para guardar datos, WMI y P/Invoke (WinVerifyTrust, iphlpapi, ntdll) para recolectar, y un instalador MSI con WiX. El motor corre dentro del proceso: cerrar la ventana termina todo, sin servicios ni tareas programadas. Las herramientas incluidas están fijadas por versión y SHA-256, y se verifican antes de cada ejecución.",
+    "code": "src/Demiurge.Core   motor: recolectores, intel, reglas, puntaje, almacenamiento, acciones\nsrc/Demiurge.App    app de escritorio (WPF + WebView2) y su interfaz en React\nsrc/Demiurge.Cli    consola para desarrollo y diagnóstico\ntests/              102 tests, incluidos los ataques de la auditoría de seguridad",
+    "h.6": "<span class=\"proj-h2-num\">06</span>Estado",
+    "p.6": "Discontinuado en octubre de 2026, como beta. Se calibró contra falsos positivos en una PC real sin permisos de administrador. Sin verificar: el comportamiento completo instalado y con permisos elevados, las acciones sobre un sistema real y la detección contra malware real en máquinas virtuales.",
+    "cta.gh": "Todos los detalles en GitHub ↗"
+  }
+};
+</script>
+<script src="../assets/js/lang-fade.js"></script>
+<script src="../assets/js/project.js"></script>
+</body>
+</html>

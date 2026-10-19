@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anomaly Detection API — Hernán Argibay</title>
-<meta name="description" content="Caso de estudio: backend de detección de anomalías con IA (Python, FastAPI, Isolation Forest).">
-
-<!-- CONTENIDO DE EJEMPLO: reemplazar texto, screenshots y código real antes de publicar. Buscá "EDITAR". -->
+<meta name="description" content="Case study: a backend that uses an Isolation Forest and two agents to detect attacks in access logs and suggest allow, alert or block.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,17 +33,29 @@
 </script>
 </head>
 
-<body class="bg-ink text-zinc-200 font-sans antialiased">
+<body class="project bg-ink text-zinc-200 font-sans antialiased">
 
 <!-- ===== NAV ===== -->
 <header class="fixed top-0 inset-x-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md">
   <nav class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="../index.html#proyectos" class="font-mono text-sm text-accent tracking-tight">← volver a proyectos</a>
-    <a href="https://github.com/0xherni" target="_blank" rel="noopener noreferrer"
-       class="font-mono text-sm border border-line px-3 py-1.5 rounded hover:border-accent hover:text-accent transition-colors">
-      GitHub ↗
-    </a>
+    <a data-i18n="nav.back" href="../index.html#proyectos" class="font-mono text-sm text-accent tracking-tight">← back to projects</a>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-1.5 font-mono text-sm" role="group" aria-label="Language selector">
+        <button type="button" data-lang="es" class="lang-btn flex items-center gap-1.5 px-2 py-1.5 rounded text-mute hover:text-accent transition-colors" aria-label="Español">
+          <span class="hidden sm:inline" aria-hidden="true">🇦🇷</span><span>ES</span>
+        </button>
+        <span class="text-line">/</span>
+        <button type="button" data-lang="en" class="lang-btn flex items-center gap-1.5 px-2 py-1.5 rounded text-accent transition-colors" aria-label="English">
+          <span class="hidden sm:inline" aria-hidden="true">🇺🇸</span><span>EN</span>
+        </button>
+      </div>
+      <a href="https://github.com/0xherni/anomaly-detection-meli" target="_blank" rel="noopener noreferrer"
+         class="font-mono text-sm border border-line px-3 py-1.5 rounded hover:border-accent hover:text-accent transition-colors">
+        GitHub ↗
+      </a>
+    </div>
   </nav>
+  <div class="scroll-progress" aria-hidden="true"></div>
 </header>
 
 <!-- ===== ARTÍCULO ===== -->
@@ -53,108 +63,238 @@
 
   <!-- Header -->
   <header class="mb-12">
-    <p class="font-mono text-accent text-sm mb-4">// caso de estudio</p>
+    <p data-i18n="kicker" class="font-mono text-accent text-sm mb-4">// case study · interview challenge</p>
     <h1 class="font-sans font-700 text-4xl md:text-5xl leading-tight tracking-tight text-zinc-50 mb-6">
       Anomaly Detection API
     </h1>
-    <p class="text-lg text-zinc-400 leading-relaxed">
-      Backend de detección de anomalías con IA, orientado a identificar comportamiento
-      atípico en flujos de datos en tiempo real.
+    <p data-i18n="lead" class="text-lg text-zinc-400 leading-relaxed">
+      A backend module that uses an AI model to spot anomalous behavior in HTTP access logs and, through a
+      two-agent flow, suggests an action: <span class="text-zinc-100">allow, alert or block</span>.
     </p>
     <div class="flex flex-wrap gap-2 mt-6">
       <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Python</span>
       <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">FastAPI</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">scikit-learn</span>
       <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Isolation Forest</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">Docker</span>
+      <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">pytest</span>
       <span class="font-mono text-xs text-accent border border-accent/30 rounded-full px-2 py-1">F1 0.92</span>
     </div>
   </header>
 
-  <!-- Imagen / screenshot principal: PLACEHOLDER -->
-  <div class="w-full aspect-video rounded-lg border-2 border-dashed border-line flex items-center justify-center mb-16">
-    <span class="font-mono text-xs text-mute">EDITAR: screenshot principal del proyecto</span>
-  </div>
+  <!-- Contexto -->
+  <aside class="mb-12 border-l-2 border-accent bg-panel px-5 py-4">
+    <p data-i18n="note.title" class="font-mono text-xs text-accent uppercase tracking-widest mb-2">Built for an interview challenge</p>
+    <p data-i18n="note.body" class="text-zinc-300 leading-relaxed">
+      I built this as my solution to the technical challenge of a job interview process at Mercado Libre:
+      design a backend that detects anomalies in access logs with an AI model and recommends what to do about them.
+    </p>
+  </aside>
+
+  <figure class="mb-16">
+    <a href="../assets/img/anomaly/00_architecture.webp" class="shot block"><img src="../assets/img/anomaly/00_architecture.webp" alt="Pipeline diagram: POST /analyze, ingestion agent, Isolation Forest detector, decision agent and JSON response" width="1600" height="1024" class="w-full rounded-lg border border-line"></a>
+    <figcaption data-i18n="cap.arch" class="font-mono text-xs text-mute mt-3">The pipeline: each component's output is the next one's input. Diagram labels are in Spanish.</figcaption>
+  </figure>
 
   <!-- Cuerpo -->
   <div class="space-y-16">
 
     <section>
-      <h2 class="font-mono text-accent text-sm mb-4">01 / El problema</h2>
-      <p class="text-zinc-300 leading-relaxed text-lg">
-        Texto de ejemplo — describí acá el contexto: qué tipo de datos se monitorean,
-        por qué la detección manual de anomalías no escalaba, y qué riesgo de seguridad
-        u operativo motivó este desarrollo.
+      <h2 data-i18n="h.1" class="proj-h2"><span class="proj-h2-num">01</span>What it does</h2>
+      <p data-i18n="p.1" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        It receives a batch of HTTP access records and answers whether there's a threat and what to do.
+        An <span class="text-zinc-100">ingestion agent</span> cleans the records and extracts behavior features,
+        a pre-trained <span class="text-zinc-100">Isolation Forest</span> scores how anomalous each one is, and a
+        <span class="text-zinc-100">decision agent</span> combines that score with explainable rules to pick
+        <code class="font-mono text-sm text-accent">ALLOW</code>, <code class="font-mono text-sm text-accent">ALERT</code> or
+        <code class="font-mono text-sm text-accent">BLOCK</code>.
       </p>
-    </section>
-
-    <section>
-      <h2 class="font-mono text-accent text-sm mb-4">02 / Arquitectura</h2>
-      <p class="text-zinc-300 leading-relaxed text-lg mb-6">
-        Texto de ejemplo — explicá el diseño del sistema: ingesta de datos, preprocesamiento,
-        el modelo Isolation Forest, y cómo se expone todo a través de la API en FastAPI.
-      </p>
-      <div class="w-full aspect-[16/9] rounded-lg border-2 border-dashed border-line flex items-center justify-center">
-        <span class="font-mono text-xs text-mute">EDITAR: diagrama de arquitectura</span>
+      <div class="border-t border-line">
+        <div class="grid sm:grid-cols-[180px_1fr] gap-x-6 py-3 border-b border-line"><p data-i18n="a.1k" class="font-mono text-sm text-zinc-100">Brute force</p><p data-i18n="a.1v" class="text-zinc-400">Many requests from one IP in little time, with a high 401/403 rate</p></div>
+        <div class="grid sm:grid-cols-[180px_1fr] gap-x-6 py-3 border-b border-line"><p data-i18n="a.2k" class="font-mono text-sm text-zinc-100">Path scanning</p><p data-i18n="a.2v" class="text-zinc-400">One IP walking sensitive endpoints (<code class="font-mono text-xs">/admin</code>, <code class="font-mono text-xs">/.env</code>, <code class="font-mono text-xs">/phpmyadmin</code>) with lots of 404s</p></div>
+        <div class="grid sm:grid-cols-[180px_1fr] gap-x-6 py-3 border-b border-line"><p data-i18n="a.3k" class="font-mono text-sm text-zinc-100">Data exfiltration</p><p data-i18n="a.3v" class="text-zinc-400">Abnormally large responses: an atypical volume of bytes</p></div>
       </div>
     </section>
 
     <section>
-      <h2 class="font-mono text-accent text-sm mb-4">03 / Implementación</h2>
-      <p class="text-zinc-300 leading-relaxed text-lg mb-6">
-        Texto de ejemplo — pasos clave del desarrollo: entrenamiento del modelo, validación,
-        endpoints expuestos, decisiones de performance.
+      <h2 data-i18n="h.2" class="proj-h2"><span class="proj-h2-num">02</span>Two agents, one pipeline</h2>
+      <p data-i18n="p.2a" class="text-zinc-300 leading-relaxed text-lg mb-4">
+        The agents are decoupled and each has a single job. The ingestion agent knows nothing about threats or
+        actions; it only prepares clean data. The decision agent gets records already scored by the model and
+        decides per record and per IP. An orchestrator passes one agent's output to the next with an explicit data
+        contract, and the response includes a trace of what each agent did.
       </p>
-      <pre class="bg-panel border border-line rounded-lg p-5 overflow-x-auto font-mono text-sm text-zinc-300"><code># EDITAR: reemplazar por snippet real
-from sklearn.ensemble import IsolationForest
-
-model = IsolationForest(contamination=0.01, random_state=42)
-model.fit(X_train)
-
-predictions = model.predict(X_new)
-</code></pre>
-    </section>
-
-    <section>
-      <h2 class="font-mono text-accent text-sm mb-4">04 / Resultados</h2>
-      <p class="text-zinc-300 leading-relaxed text-lg mb-6">
-        Texto de ejemplo — resultados obtenidos (F1 0.92), comparación contra baseline,
-        impacto en tiempos de detección.
+      <p data-i18n="p.2b" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        The model doesn't look at isolated requests but at <span class="text-zinc-100">aggregated behavior per IP</span>,
+        which is what gives an attacker away:
       </p>
-      <div class="grid sm:grid-cols-2 gap-6">
-        <div class="w-full aspect-video rounded-lg border-2 border-dashed border-line flex items-center justify-center">
-          <span class="font-mono text-xs text-mute">EDITAR: screenshot dashboard/métricas</span>
-        </div>
-        <div class="w-full aspect-video rounded-lg border-2 border-dashed border-line flex items-center justify-center">
-          <span class="font-mono text-xs text-mute">EDITAR: screenshot ejemplo de detección</span>
-        </div>
+      <div class="flex flex-wrap gap-2">
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">ip_request_count</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">ip_error_ratio</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">ip_burst_rate</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">ip_sensitive_ratio</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">bytes_sent</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">suspicious_agent</span>
+        <span class="font-mono text-xs text-zinc-300 border border-line rounded px-2 py-1">is_error · is_post · hits_sensitive</span>
       </div>
     </section>
 
     <section>
-      <h2 class="font-mono text-accent text-sm mb-4">05 / Conclusiones</h2>
-      <p class="text-zinc-300 leading-relaxed text-lg">
-        Texto de ejemplo — qué aprendiste, qué harías distinto, próximos pasos o mejoras
-        planeadas para el proyecto.
+      <h2 data-i18n="h.3" class="proj-h2"><span class="proj-h2-num">03</span>The model</h2>
+      <p data-i18n="p.3a" class="text-zinc-300 leading-relaxed text-lg mb-4">
+        Isolation Forest isolates observations with random cuts: anomalies are rare and different, so they get
+        isolated in fewer cuts and receive a lower score. The key decision was to train it
+        <span class="text-zinc-100">only on clean traffic</span>, so it learns what normal looks like and flags
+        anything that drifts from it. Mixing anomalies into training muddies that notion of normal.
       </p>
+      <p data-i18n="p.3b" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        The dataset is synthetic on purpose: having the ground truth makes detection measurable and the project
+        reproducible. Against 2,000 normal and 399 anomalous records:
+      </p>
+      <div class="grid grid-cols-3 border border-line rounded-lg mb-6 divide-x divide-line">
+        <div class="p-5"><p data-i18n="m.1" class="font-mono text-xs text-mute mb-2">Precision</p><p class="text-3xl font-semibold text-zinc-50">0.90</p></div>
+        <div class="p-5"><p class="font-mono text-xs text-mute mb-2">Recall</p><p class="text-3xl font-semibold text-zinc-50">0.94</p></div>
+        <div class="p-5"><p class="font-mono text-xs text-mute mb-2">F1-score</p><p class="text-3xl font-semibold text-accent">0.92</p></div>
+      </div>
+      <figure>
+        <a href="../assets/img/anomaly/06_training_run.webp" class="shot block"><img src="../assets/img/anomaly/06_training_run.webp" alt="Terminal output of the training run with precision 0.903, recall 0.935, F1 0.919 and the confusion matrix" width="787" height="283" loading="lazy" class="w-full rounded-lg border border-line"></a>
+        <figcaption data-i18n="cap.train" class="font-mono text-xs text-mute mt-3">Training run inside Docker. Confusion matrix: TP 373 · FP 40 · FN 26 · TN 1960.</figcaption>
+      </figure>
+      <p data-i18n="p.3c" class="text-zinc-400 leading-relaxed mt-6">
+        As an optional step, 10% of labeled data is used to calibrate the decision threshold that maximizes F1:
+        the labels tune the cut-off point, they don't retrain the forest.
+      </p>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.4" class="proj-h2"><span class="proj-h2-num">04</span>In action</h2>
+      <p data-i18n="p.4" class="text-zinc-300 leading-relaxed text-lg mb-6">
+        Each scenario sent to <code class="font-mono text-sm">POST /analyze</code>, from the terminal and from the Swagger UI.
+        Every IP and every record comes back with its own verdict and a readable reason.
+      </p>
+      <div class="space-y-8">
+        <figure>
+          <a href="../assets/img/anomaly/02_normal.webp" class="shot block"><img src="../assets/img/anomaly/02_normal.webp" alt="Response for normal traffic recommending allow" width="1600" height="367" loading="lazy" class="w-full rounded-lg border border-line"></a>
+          <figcaption data-i18n="cap.normal" class="font-mono text-xs text-mute mt-3">Normal traffic → allow.</figcaption>
+        </figure>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <figure>
+            <a href="../assets/img/anomaly/03_brute_force.webp" class="shot block"><img src="../assets/img/anomaly/03_brute_force.webp" alt="Request body with five failed logins from the same IP using sqlmap" width="1411" height="596" loading="lazy" class="w-full rounded-lg border border-line"></a>
+            <figcaption data-i18n="cap.bf1" class="font-mono text-xs text-mute mt-3">Brute force: the request.</figcaption>
+          </figure>
+          <figure>
+            <a href="../assets/img/anomaly/031_brute_force.webp" class="shot block"><img src="../assets/img/anomaly/031_brute_force.webp" alt="Response detecting a threat and recommending block" width="1426" height="600" loading="lazy" class="w-full rounded-lg border border-line"></a>
+            <figcaption data-i18n="cap.bf2" class="font-mono text-xs text-mute mt-3">Brute force → block.</figcaption>
+          </figure>
+        </div>
+        <figure>
+          <a href="../assets/img/anomaly/04_path_scan.webp" class="shot block"><img src="../assets/img/anomaly/04_path_scan.webp" alt="Response for a sensitive path scan recommending block" width="1600" height="410" loading="lazy" class="w-full rounded-lg border border-line"></a>
+          <figcaption data-i18n="cap.scan" class="font-mono text-xs text-mute mt-3">Sensitive path scan → block.</figcaption>
+        </figure>
+        <figure>
+          <a href="../assets/img/anomaly/05_exfiltration.webp" class="shot block"><img src="../assets/img/anomaly/05_exfiltration.webp" alt="Response for data exfiltration recommending alert" width="1600" height="344" loading="lazy" class="w-full rounded-lg border border-line"></a>
+          <figcaption data-i18n="cap.exfil" class="font-mono text-xs text-mute mt-3">Data exfiltration → alert.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.5" class="proj-h2"><span class="proj-h2-num">05</span>The API</h2>
+      <div class="border-t border-line mb-6 font-mono text-sm">
+        <div class="grid grid-cols-[60px_110px_1fr] gap-x-4 py-3 border-b border-line"><span class="text-mute">GET</span><span class="text-zinc-100">/health</span><span data-i18n="api.1" class="text-zinc-400 font-sans">Checks the model is loaded</span></div>
+        <div class="grid grid-cols-[60px_110px_1fr] gap-x-4 py-3 border-b border-line"><span class="text-accent">POST</span><span class="text-zinc-100">/analyze</span><span data-i18n="api.2" class="text-zinc-400 font-sans">Analyzes a batch of records</span></div>
+        <div class="grid grid-cols-[60px_110px_1fr] gap-x-4 py-3 border-b border-line"><span class="text-mute">GET</span><span class="text-zinc-100">/demo</span><span data-i18n="api.3" class="text-zinc-400 font-sans">Generates a synthetic batch with attacks and analyzes it</span></div>
+        <div class="grid grid-cols-[60px_110px_1fr] gap-x-4 py-3 border-b border-line"><span class="text-mute">GET</span><span class="text-zinc-100">/docs</span><span data-i18n="api.4" class="text-zinc-400 font-sans">Interactive Swagger UI</span></div>
+      </div>
+      <pre class="bg-panel border border-line rounded-lg p-5 overflow-x-auto font-mono text-sm text-zinc-300"><code>{
+  "threat_detected": true,
+  "recommended_action": "BLOQUEAR",
+  "ip_verdicts": [
+    { "ip": "45.13.99.7", "verdict": "BLOQUEAR", "anomalies": 1, "max_score": 0.58 }
+  ],
+  "records": [
+    { "endpoint": "/login", "status_code": 401, "anomaly_score": 0.58,
+      "reason": "Score alto (0.58): respuesta de error 401; user-agent sospechoso." }
+  ]
+}</code></pre>
+      <p data-i18n="api.note" class="font-mono text-xs text-mute mt-3">Trimmed response. The API answers in Spanish.</p>
+    </section>
+
+    <section>
+      <h2 data-i18n="h.6" class="proj-h2"><span class="proj-h2-num">06</span>Design decisions</h2>
+      <ul class="space-y-4 text-zinc-300 leading-relaxed text-lg">
+        <li data-i18n="d.1"><span class="text-zinc-100">AI + rules.</span> In security, a block recommendation has to be justifiable. The score says <em>how</em> anomalous something is; the rules explain <em>why</em>, and that ends up in the <code class="font-mono text-sm">reason</code> field.</li>
+        <li data-i18n="d.2"><span class="text-zinc-100">Per IP, not only per record.</span> One request can look normal; what gives an attacker away is the pattern across all their requests.</li>
+        <li data-i18n="d.3"><span class="text-zinc-100">Decoupled agents.</span> Ingestion and decision only talk through the orchestrator, so adding a third agent (say, notifications) doesn't touch the others.</li>
+        <li data-i18n="d.4"><span class="text-zinc-100">FastAPI.</span> Async performance, automatic Pydantic validation and Swagger docs for free.</li>
+      </ul>
     </section>
 
   </div>
 
   <!-- CTA final -->
   <div class="mt-20 pt-10 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
-    <a href="../index.html#proyectos" class="font-mono text-sm text-accent hover:underline">← volver a proyectos</a>
-    <a href="../index.html#contacto" class="font-mono text-sm border border-line px-5 py-3 rounded hover:border-accent hover:text-accent transition-colors">
-      Hablemos del proyecto
+    <a data-i18n="cta.back" href="../index.html#proyectos" class="font-mono text-sm text-accent hover:underline">← back to projects</a>
+    <a data-i18n="cta.gh" href="https://github.com/0xherni/anomaly-detection-meli" target="_blank" rel="noopener noreferrer"
+       class="font-mono text-sm border border-line px-5 py-3 rounded hover:border-accent hover:text-accent transition-colors">
+      Full details on GitHub ↗
     </a>
   </div>
 
 </article>
 
-<!-- ===== FOOTER ===== -->
-<footer class="border-t border-line py-10 px-6 max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-  <p class="font-mono text-xs text-mute">© <span id="year"></span> Hernán Argibay — Cybersecurity Analyst</p>
-  <a href="../index.html" class="font-mono text-xs text-mute hover:text-accent transition-colors">volver al portfolio</a>
-</footer>
-
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+  // Traducción al español; el inglés es el texto del HTML
+  window.PAGE_I18N = {
+  "es": {
+    "title": "Anomaly Detection API — Hernán Argibay",
+    "nav.back": "← volver a proyectos",
+    "cta.back": "← volver a proyectos",
+    "kicker": "// caso de estudio · challenge de entrevista",
+    "lead": "Un módulo backend que usa un modelo de IA para detectar comportamiento anómalo en access logs HTTP y, con un flujo de dos agentes, sugiere una acción: <span class=\"text-zinc-100\">permitir, alertar o bloquear</span>.",
+    "note.title": "Hecho para un challenge de entrevista",
+    "note.body": "Lo hice como solución al challenge técnico de un proceso de entrevista en Mercado Libre: diseñar un backend que detecte anomalías en access logs con un modelo de IA y recomiende qué hacer con ellas.",
+    "cap.arch": "El pipeline: la salida de cada componente es la entrada del siguiente.",
+    "h.1": "<span class=\"proj-h2-num\">01</span>Qué hace",
+    "p.1": "Recibe un lote de registros de acceso HTTP y responde si hay una amenaza y qué hacer. Un <span class=\"text-zinc-100\">agente de ingesta</span> limpia los registros y extrae características de comportamiento, un <span class=\"text-zinc-100\">Isolation Forest</span> preentrenado puntúa qué tan anómalo es cada uno, y un <span class=\"text-zinc-100\">agente de decisión</span> combina ese puntaje con reglas explicables para elegir <code class=\"font-mono text-sm text-accent\">PERMITIR</code>, <code class=\"font-mono text-sm text-accent\">ALERTAR</code> o <code class=\"font-mono text-sm text-accent\">BLOQUEAR</code>.",
+    "a.1k": "Fuerza bruta",
+    "a.1v": "Muchas peticiones de una IP en poco tiempo, con alta tasa de 401/403",
+    "a.2k": "Escaneo de rutas",
+    "a.2v": "Una IP recorre endpoints sensibles (<code class=\"font-mono text-xs\">/admin</code>, <code class=\"font-mono text-xs\">/.env</code>, <code class=\"font-mono text-xs\">/phpmyadmin</code>) con muchos 404",
+    "a.3k": "Exfiltración de datos",
+    "a.3v": "Respuestas anormalmente grandes: un volumen de bytes atípico",
+    "h.2": "<span class=\"proj-h2-num\">02</span>Dos agentes, un pipeline",
+    "p.2a": "Los agentes están desacoplados y cada uno tiene una sola tarea. El agente de ingesta no sabe nada de amenazas ni acciones: solo prepara datos limpios. El agente de decisión recibe los registros ya puntuados por el modelo y decide por registro y por IP. Un orquestador pasa la salida de un agente al siguiente con un contrato de datos explícito, y la respuesta incluye una traza de lo que hizo cada agente.",
+    "p.2b": "El modelo no mira peticiones aisladas sino el <span class=\"text-zinc-100\">comportamiento agregado por IP</span>, que es lo que delata a un atacante:",
+    "h.3": "<span class=\"proj-h2-num\">03</span>El modelo",
+    "p.3a": "Isolation Forest aísla observaciones con cortes aleatorios: las anomalías son raras y distintas, así que quedan aisladas en menos cortes y reciben un puntaje más bajo. La decisión clave fue entrenarlo <span class=\"text-zinc-100\">solo con tráfico limpio</span>, para que aprenda cómo es lo normal y marque todo lo que se aparta. Mezclar anomalías en el entrenamiento ensucia esa noción de normalidad.",
+    "p.3b": "El dataset es sintético a propósito: tener el ground truth permite medir la detección y hace el proyecto reproducible. Contra 2.000 registros normales y 399 anómalos:",
+    "m.1": "Precisión",
+    "cap.train": "Entrenamiento dentro de Docker. Matriz de confusión: TP 373 · FP 40 · FN 26 · TN 1960.",
+    "p.3c": "Como paso opcional, se usa un 10% de datos etiquetados para calibrar el umbral de decisión que maximiza el F1: las etiquetas ajustan el punto de corte, no reentrenan el bosque.",
+    "h.4": "<span class=\"proj-h2-num\">04</span>Funcionando",
+    "p.4": "Cada escenario enviado a <code class=\"font-mono text-sm\">POST /analyze</code>, desde la terminal y desde Swagger UI. Cada IP y cada registro vuelven con su propio veredicto y un motivo legible.",
+    "cap.normal": "Tráfico normal → permitir.",
+    "cap.bf1": "Fuerza bruta: la petición.",
+    "cap.bf2": "Fuerza bruta → bloquear.",
+    "cap.scan": "Escaneo de rutas sensibles → bloquear.",
+    "cap.exfil": "Exfiltración de datos → alertar.",
+    "h.5": "<span class=\"proj-h2-num\">05</span>La API",
+    "api.1": "Verifica que el modelo esté cargado",
+    "api.2": "Analiza un lote de registros",
+    "api.3": "Genera un lote sintético con ataques y lo analiza",
+    "api.4": "Swagger UI interactivo",
+    "api.note": "Respuesta recortada.",
+    "h.6": "<span class=\"proj-h2-num\">06</span>Decisiones de diseño",
+    "d.1": "<span class=\"text-zinc-100\">IA + reglas.</span> En seguridad, una recomendación de bloqueo tiene que poder justificarse. El puntaje dice <em>cuán</em> anómalo es algo; las reglas explican <em>por qué</em>, y eso queda en el campo <code class=\"font-mono text-sm\">reason</code>.",
+    "d.2": "<span class=\"text-zinc-100\">Por IP, no solo por registro.</span> Una petición sola puede parecer normal; lo que delata a un atacante es el patrón de todas sus peticiones.",
+    "d.3": "<span class=\"text-zinc-100\">Agentes desacoplados.</span> Ingesta y decisión solo se comunican a través del orquestador, así que sumar un tercer agente (por ejemplo, de notificaciones) no toca a los demás.",
+    "d.4": "<span class=\"text-zinc-100\">FastAPI.</span> Rendimiento async, validación automática con Pydantic y documentación Swagger sin esfuerzo.",
+    "cta.gh": "Todos los detalles en GitHub ↗"
+  }
+};
+</script>
+<script src="../assets/js/lang-fade.js"></script>
+<script src="../assets/js/project.js"></script>
 </body>
 </html>

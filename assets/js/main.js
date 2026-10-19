@@ -6,18 +6,15 @@ const translations = {
     'nav.projects': '02. Projects',
     'nav.skills': '03. Skills',
     'nav.contact': '04. Contact',
-    'hero.pitch': 'I defend critical systems by analyzing anomalous behavior, modeling threats, and automating detection with AI — before an attacker finds the crack.',
+    'hero.pitch': 'I defend critical systems by analyzing anomalous behavior, modeling threats, and automating detection with AI.',
     'hero.cta.contact': 'Contact →',
     'hero.cta.github': 'View GitHub',
     'about.heading': '01 / About me',
-    'about.body': 'Cybersecurity analyst based in Buenos Aires, focused on threat detection, security architecture, and incident response. I combine traditional security tooling with AI models to automate anomaly detection and accelerate threat hunting. I think like an attacker to design defenses that actually hold.',
+    'about.body': 'Cybersecurity analyst in Buenos Aires, working across threat detection, incident response, and security architecture. Day to day I live in the SOC — hunting threats, investigating incidents end to end, and building AI-assisted tooling to cut through alert noise. These days I’m especially drawn to projects where AI meets security — automating the repetitive work so analysts can focus on what actually matters.',
     'projects.heading': '02 / Featured projects',
-    'projects.card1.desc': 'AI-powered anomaly detection backend designed to identify atypical behavior in real-time data streams.',
-    'projects.card2.desc': 'Research into MCP/AI security, focused on JWT authentication and secrets management.',
+    'projects.card0.desc': 'Windows desktop app that answers one question: is my PC clean or infected? It explains every finding in plain language.',
+    'projects.card1.desc': 'Backend that uses an Isolation Forest and two agents to spot attacks in access logs and suggest allow, alert or block. Built for an interview challenge.',
     'projects.cta': 'View full case →',
-    'projects.next.status': 'In progress',
-    'projects.next.title': 'Next case',
-    'projects.next.cta': 'Follow on GitHub →',
     'skills.heading': '03 / Skills',
     'skills.cat.security.header': 'Security Engineering',
     'skills.cat.cloud.header': 'Cloud & Containers',
@@ -44,18 +41,15 @@ const translations = {
     'nav.projects': '02. Proyectos',
     'nav.skills': '03. Skills',
     'nav.contact': '04. Contacto',
-    'hero.pitch': 'Defiendo sistemas críticos analizando comportamiento anómalo, modelando amenazas y automatizando la detección con IA — antes de que el atacante encuentre la grieta.',
+    'hero.pitch': 'Defiendo sistemas críticos analizando comportamiento anómalo, modelando amenazas y automatizando la detección con IA.',
     'hero.cta.contact': 'Contacto →',
     'hero.cta.github': 'Ver GitHub',
     'about.heading': '01 / Sobre mí',
-    'about.body': 'Analista de ciberseguridad con base en Buenos Aires, enfocado en detección de amenazas, arquitectura de seguridad y respuesta a incidentes. Combino herramientas tradicionales de seguridad con modelos de IA para automatizar la detección de anomalías y acelerar el threat hunting. Pienso como atacante para diseñar defensas que realmente resistan.',
+    'about.body': 'Analista de ciberseguridad en Buenos Aires, trabajando en detección de amenazas, respuesta a incidentes y arquitectura de seguridad. En el día a día vivo en el SOC: hago threat hunting, investigo incidentes de punta a punta y construyo herramientas asistidas por IA para filtrar el ruido de las alertas. Hoy me atraen especialmente los proyectos donde la IA se cruza con la seguridad: automatizar el trabajo repetitivo para que los analistas puedan enfocarse en lo que realmente importa.',
     'projects.heading': '02 / Proyectos destacados',
-    'projects.card1.desc': 'Backend de detección de anomalías con IA, orientado a identificar comportamiento atípico en flujos de datos en tiempo real.',
-    'projects.card2.desc': 'Investigación en seguridad de protocolos MCP e IA, con foco en autenticación JWT y gestión segura de secrets.',
+    'projects.card0.desc': 'App de escritorio para Windows que responde una sola pregunta: ¿mi PC está limpia o infectada? Explica cada hallazgo en lenguaje simple.',
+    'projects.card1.desc': 'Backend que usa un Isolation Forest y dos agentes para detectar ataques en access logs y sugerir permitir, alertar o bloquear. Hecho para un challenge de entrevista.',
     'projects.cta': 'Ver caso completo →',
-    'projects.next.status': 'En progreso',
-    'projects.next.title': 'Próximo caso',
-    'projects.next.cta': 'Seguir en GitHub →',
     'skills.heading': '03 / Habilidades',
     'skills.cat.security.header': 'Ingeniería de Seguridad',
     'skills.cat.cloud.header': 'Cloud y Contenedores',
@@ -81,9 +75,8 @@ const translations = {
 
 const langButtons = document.querySelectorAll('.lang-btn');
 
-const applyLanguage = (lang) => {
+const swapLanguage = (lang) => {
   const dict = translations[lang];
-  if (!dict) return;
 
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const key = el.dataset.i18n;
@@ -91,16 +84,35 @@ const applyLanguage = (lang) => {
   });
 
   document.documentElement.lang = lang;
+  document.dispatchEvent(new CustomEvent('langchange'));
+};
+
+const applyLanguage = (lang, animate = false) => {
+  if (!translations[lang]) return;
   localStorage.setItem('lang', lang);
 
   langButtons.forEach((btn) => {
     btn.classList.toggle('text-accent', btn.dataset.lang === lang);
     btn.classList.toggle('text-mute', btn.dataset.lang !== lang);
   });
+
+  if (!animate) {
+    swapLanguage(lang);
+    return;
+  }
+
+  // Solo se animan los textos visibles; el resto cambia directo
+  const visible = [...document.querySelectorAll('[data-i18n], .ct-phrase')].filter((el) => {
+    const r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight && r.width > 0;
+  });
+  window.langFade(visible, () => swapLanguage(lang));
 };
 
 langButtons.forEach((btn) => {
-  btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+  btn.addEventListener('click', () => {
+    if (btn.dataset.lang !== document.documentElement.lang) applyLanguage(btn.dataset.lang, true);
+  });
 });
 
 applyLanguage(localStorage.getItem('lang') || 'en');
@@ -326,11 +338,9 @@ if (document.documentElement.classList.contains('snap')) {
     morphTo(currentPhrases()[phraseIndex]);
   }, 3500);
 
-  langButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      phraseEl.textContent = currentPhrases()[phraseIndex];
-      fitTitle();
-    });
+  document.addEventListener('langchange', () => {
+    phraseEl.textContent = currentPhrases()[phraseIndex];
+    fitTitle();
   });
   phraseEl.textContent = currentPhrases()[phraseIndex];
   fitTitle();

@@ -383,7 +383,7 @@ html.snap .board > .reveal-item {
 .strip-visual {
   position: absolute;
   inset: 0;
-  opacity: 0.35;
+  opacity: 0.28;
   filter: grayscale(1);
   transform: scale(1.05);
   transition: opacity 0.5s ease, filter 0.5s ease, transform 0.8s ease;
@@ -395,51 +395,260 @@ html.snap .board > .reveal-item {
   transform: scale(1);
 }
 
-.strip:is(:hover, :focus-visible) .strip-visual--jwt {
-  opacity: 0.3;
-}
-
-.strip-visual--scatter svg {
+/* ===== Portada de Anomaly Detection: Isolation Forest dibujado ===== */
+/* Access logs de fondo; encima, tráfico normal agrupado y los cortes
+   aleatorios que aíslan las anomalías con pocos pasos. */
+.strip-visual--forest svg {
+  position: relative;
   width: 100%;
   height: 100%;
 }
 
-.strip-visual--scatter .pts circle {
+.if-frame {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+}
+
+.if-cut {
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+}
+
+.if-pts circle {
   fill: #8a8a92;
 }
 
-.strip-visual--scatter .o {
+.if-out {
   fill: #ff3b3b;
 }
 
-.strip-visual--scatter .ring {
+.if-ring {
   fill: none;
   stroke: #ff3b3b;
-  stroke-width: 1.5;
+  stroke-width: 1.2;
   opacity: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-.strip-visual--jwt p {
+.if-label,
+.if-axis {
+  font: 500 9px 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  fill: #8a8a92;
+}
+
+.if-label {
+  fill: #ff3b3b;
+  text-transform: uppercase;
+}
+
+/* En hover: los cortes se dibujan por profundidad y las anomalías laten */
+.strip:is(:hover, :focus-visible) .if-cut {
+  stroke: rgba(255, 59, 59, 0.45);
+  animation: core-draw 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d);
+}
+
+.strip:is(:hover, :focus-visible) .if-ring {
+  animation: if-ping 1.8s ease-out infinite;
+}
+
+@keyframes if-ping {
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+/* ===== Portada de Demiurge: dial de escaneo ===== */
+/* 28 marcas (una por área de Windows), anillos con los motores de detección y
+   señales que convergen en un programa: puntúa por programa, no por evento. */
+.strip-visual--core svg {
+  width: 100%;
+  height: 100%;
+}
+
+.core-spin,
+.core-sweep {
+  transform-box: view-box;
+  transform-origin: 200px 320px;
+}
+
+/* Barrido de radar: gira siempre, más rápido en hover */
+.core-sweep {
+  fill: #ff3b3b;
+  animation: core-spin 8s linear infinite;
+}
+
+.strip:is(:hover, :focus-visible) .core-sweep {
+  animation-duration: 3.5s;
+}
+
+/* Muro con la salida del escaneo, de borde a borde como en las otras tiras */
+.core-wall {
+  position: absolute;
+  inset: 0;
   margin: 0;
-  padding: 1.5rem;
-  font: 500 16px / 1.6 'JetBrains Mono', monospace;
-  word-break: break-all;
+  padding: 1rem 1.25rem;
+  overflow: hidden;
+  font: 500 11px / 2.6 'JetBrains Mono', monospace;
+  white-space: pre;
+  color: #2c2c31;
 }
 
-.jwt-h {
-  color: #8a8a92;
-}
-
-.jwt-p {
-  color: #d4d4d8;
-}
-
-.jwt-s {
+.core-wall .hit {
   color: #ff3b3b;
 }
 
-.strip-visual--hatch {
-  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 14px);
+/* El dial queda por encima del muro, sobre un disco oscuro que lo despega */
+.strip-visual--core svg {
+  position: relative;
+}
+
+.core-backdrop {
+  fill: #050506;
+  fill-opacity: 0.88;
+}
+
+.core-spin line {
+  stroke: #55555b;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.core-spin .hot {
+  stroke: #ff3b3b;
+  stroke-width: 3;
+}
+
+.core-ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-dasharray: 2 6;
+}
+
+.core-ring--outer {
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-dasharray: none;
+}
+
+.core-label {
+  font: 500 8px 'JetBrains Mono', monospace;
+  letter-spacing: 0.3em;
+  fill: #6a6a72;
+}
+
+/* Conexiones de las señales al programa */
+.core-link {
+  stroke: rgba(255, 59, 59, 0.45);
+  stroke-width: 1.2;
+  stroke-dasharray: 1;
+}
+
+.core-dot {
+  fill: #6a6a72;
+}
+
+.core-dot.is-hit {
+  fill: #ff3b3b;
+}
+
+.core-node {
+  fill: #0a0a0b;
+  stroke: rgba(255, 59, 59, 0.5);
+  stroke-width: 1;
+}
+
+.core-pulse {
+  fill: none;
+  stroke: #ff3b3b;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.core-score {
+  font-weight: 700;
+  fill: #ff3b3b;
+}
+
+/* Ojo de Demiurge en el centro: tenue en reposo, se enciende en hover */
+.core-eye {
+  opacity: 0.55;
+  transition: opacity 0.4s ease;
+}
+
+.strip:is(:hover, :focus-visible) .core-eye {
+  opacity: 1;
+}
+
+.core-eye-lid {
+  fill: none;
+  stroke: #ff3b3b;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.core-eye-iris {
+  fill: #ff3b3b;
+}
+
+.core-eye-pupil {
+  fill: #0a0a0b;
+}
+
+.core-eye-glint {
+  fill: #fafafa;
+}
+
+.core-target {
+  font: 500 10px 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+  fill: #a1a1aa;
+}
+
+/* En hover: el dial gira, las conexiones se dibujan y el nodo late */
+.strip:is(:hover, :focus-visible) .core-spin {
+  animation: core-spin 40s linear infinite;
+}
+
+.strip:is(:hover, :focus-visible) .core-link {
+  stroke: #ff3b3b;
+  animation: core-draw 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d);
+}
+
+.strip:is(:hover, :focus-visible) .core-pulse {
+  animation: core-pulse 1.8s ease-out infinite;
+}
+
+@keyframes core-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes core-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes core-pulse {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.4);
+  }
 }
 
 .strip-corner {
@@ -522,15 +731,17 @@ html.snap .board > .reveal-item {
   right: 3.25rem;
   z-index: 1;
   font: 700 7rem / 0.8 'Space Grotesk', sans-serif;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.2);
+  /* Relleno del color de la tira: el fondo no se ve a través del número */
+  color: #050506;
+  -webkit-text-stroke: 3px rgba(255, 255, 255, 0.32);
+  paint-order: stroke fill;
   transform: translateX(20px);
   transition: transform 0.5s ease, -webkit-text-stroke-color 0.5s ease;
   pointer-events: none;
 }
 
 .strip:is(:hover, :focus-visible) .strip-num {
-  -webkit-text-stroke-color: rgba(255, 59, 59, 0.45);
+  -webkit-text-stroke-color: rgba(255, 59, 59, 0.75);
   transform: none;
 }
 
@@ -558,10 +769,6 @@ html.snap .board > .reveal-item {
   font-weight: 600;
   line-height: 1.1;
   color: #fafafa;
-}
-
-.strip--pending .strip-title {
-  color: #8a8a92;
 }
 
 .strip-desc {
@@ -1190,10 +1397,6 @@ html.snap #contacto.is-active .ct-em::after {
     filter: none;
   }
 
-  .strip-visual--jwt {
-    opacity: 0.3;
-  }
-
   .strip-details,
   .strip-access {
     transform: none;
@@ -1206,12 +1409,178 @@ html.snap #contacto.is-active .ct-em::after {
   }
 }
 
+/* ===== Páginas de proyecto ===== */
+/* Fondo: grilla roja tenue como el hero, con brillos en las esquinas */
+body.project {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(255, 59, 59, 0.09), transparent 40%),
+    radial-gradient(circle at 95% 35%, rgba(255, 59, 59, 0.05), transparent 35%),
+    radial-gradient(circle at 5% 90%, rgba(255, 59, 59, 0.05), transparent 35%);
+  background-attachment: fixed;
+}
+
+body.project::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 59, 59, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 59, 59, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 10%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 10%, transparent 75%);
+  pointer-events: none;
+}
+
+.proj-h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid #222226;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #fafafa;
+}
+
+.proj-h2-num {
+  font: 500 0.8rem / 1 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  color: #ff3b3b;
+}
+
+.shot {
+  position: relative;
+  cursor: zoom-in;
+}
+
+.shot img {
+  transition: border-color 0.25s ease;
+}
+
+.shot:hover img,
+.shot:focus-visible img {
+  border-color: #ff3b3b;
+}
+
+.shot:focus-visible {
+  outline: none;
+}
+
+/* Visor de imágenes */
+.viewer {
+  width: min(92vw, 1400px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d4d4d8;
+  overflow: visible;
+}
+
+.viewer::backdrop {
+  background: rgba(5, 5, 6, 0.88);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.viewer[open] {
+  animation: viewer-in 0.25s ease;
+}
+
+@keyframes viewer-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+.viewer-frame {
+  position: relative;
+  padding: 14px;
+  border: 1px solid #ff3b3b;
+  background: #0a0a0b;
+  box-shadow: 0 0 60px -10px rgba(255, 59, 59, 0.35);
+}
+
+.viewer-frame .strip-corner {
+  opacity: 1;
+  width: 18px;
+  height: 18px;
+  border-color: #fafafa;
+}
+
+.viewer-img {
+  display: block;
+  width: 100%;
+  max-height: calc(100svh - 10rem);
+  object-fit: contain;
+}
+
+.viewer-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  font: 500 12px / 1.4 'JetBrains Mono', monospace;
+}
+
+.viewer-count {
+  color: #ff3b3b;
+  letter-spacing: 0.1em;
+}
+
+.viewer-caption {
+  flex: 1;
+  color: #a1a1aa;
+}
+
+.viewer-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.viewer-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid #333;
+  background: #0a0a0b;
+  color: #d4d4d8;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.viewer-btn:hover,
+.viewer-btn:focus-visible {
+  border-color: #ff3b3b;
+  color: #ff3b3b;
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
+  .viewer[open] {
+    animation: none;
+  }
+
   .ix-panel.is-active .ix-items li {
+    animation: none;
+  }
+
+  .core-spin,
+  .core-sweep,
+  .core-pulse,
+  .strip:is(:hover, :focus-visible) .if-cut,
+  .strip:is(:hover, :focus-visible) .if-ring,
+  .strip:is(:hover, :focus-visible) .core-link {
     animation: none;
   }
 
