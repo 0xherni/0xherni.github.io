@@ -1744,6 +1744,199 @@ html.snap #sobre-mi::after {
   }
 }
 
+/* ===== Experiencia, variante B: barra de carrera + tarjetas ===== */
+.xpb-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.xpb .xp-head {
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #ff3b3b;
+}
+
+.xpb-total {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font: 500 11px / 1 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+}
+
+.xpb .xp-years {
+  font: 700 1.25rem / 1 'Space Grotesk', sans-serif;
+  color: #fafafa;
+}
+
+/* Barra proporcional */
+.xpb-bar {
+  margin-bottom: clamp(1.25rem, 3.5svh, 2rem);
+}
+
+.xpb-track {
+  display: flex;
+  gap: 3px;
+  height: 30px;
+}
+
+.xpb-seg {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 0.6rem;
+  overflow: hidden;
+  border: 1px solid #333;
+  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 7px);
+  transition: border-color 0.25s ease, background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.xpb-seg b {
+  overflow: hidden;
+  font: 500 10px / 1 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: clip;
+  color: #a1a1aa;
+}
+
+.xpb-seg.is-current {
+  border-color: #ff3b3b;
+  background: linear-gradient(90deg, rgba(255, 59, 59, 0.12), rgba(255, 59, 59, 0.35));
+  box-shadow: 0 0 18px -4px rgba(255, 59, 59, 0.55);
+}
+
+.xpb-seg.is-current b {
+  color: #fafafa;
+}
+
+/* Punto en el extremo de "hoy", latiendo */
+.xpb-head-dot {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  box-shadow: 0 0 8px #ff3b3b;
+}
+
+.xpb-head-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #ff3b3b;
+  animation: ct-ping 1.8s ease-out infinite;
+}
+
+.xpb-ticks {
+  position: relative;
+  height: 20px;
+  margin-top: 6px;
+}
+
+.xpb-ticks span {
+  position: absolute;
+  top: 0;
+  padding-top: 7px;
+  font: 500 10px / 1 'JetBrains Mono', monospace;
+  letter-spacing: 0.06em;
+  color: #6a6a72;
+  transform: translateX(-50%);
+}
+
+.xpb-ticks span::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 5px;
+  background: #3a3a40;
+}
+
+.xpb-ticks .is-today {
+  color: #ff3b3b;
+  transform: translateX(-100%);
+}
+
+.xpb-ticks .is-today::before {
+  left: auto;
+  right: 0;
+  background: #ff3b3b;
+}
+
+/* Tarjetas */
+.xpb-cards {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.xpb-card {
+  position: relative;
+  padding: clamp(0.85rem, 2.2svh, 1.25rem) 1.25rem;
+  border: 1px solid #222226;
+  border-left: 2px solid #3a3a40;
+  background:
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px) 0 0 / 18px 18px,
+    #070708;
+  transition: border-color 0.25s ease, opacity 0.25s ease;
+}
+
+.xpb-card.is-current {
+  border-left-color: #ff3b3b;
+}
+
+.xpb .xp-logo {
+  top: clamp(0.85rem, 2.2svh, 1.25rem);
+  right: 1.25rem;
+}
+
+.xpb .xp-role {
+  margin-top: 0.45rem;
+}
+
+.xpb .xp-meta {
+  gap: 0.6rem;
+}
+
+/* Resaltado cruzado tramo ↔ tarjeta */
+.xpb[data-focus] .xpb-seg,
+.xpb[data-focus] .xpb-card {
+  opacity: 0.4;
+}
+
+.xpb[data-focus="visma"] [data-job="visma"],
+.xpb[data-focus="edsi"] [data-job="edsi"] {
+  opacity: 1;
+}
+
+.xpb[data-focus="visma"] .xpb-card[data-job="visma"],
+.xpb[data-focus="edsi"] .xpb-card[data-job="edsi"] {
+  border-color: #ff3b3b;
+}
+
+.xpb[data-focus="edsi"] .xpb-seg[data-job="edsi"] {
+  border-color: #ff3b3b;
+}
+
+.xpb[data-focus] .xp-logo {
+  opacity: 0.55;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1768,7 +1961,8 @@ html.snap #sobre-mi::after {
 
   .ct-cursor,
   .ct-pulse::after,
-  .is-current .xp-dot::after {
+  .is-current .xp-dot::after,
+  .xpb-head-dot::after {
     animation: none;
   }
 

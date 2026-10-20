@@ -13,6 +13,8 @@ const translations = {
     'about.body': 'Cybersecurity analyst in Buenos Aires, working across threat detection, incident response, and security architecture. Day to day I live in the SOC — hunting threats, investigating incidents end to end, and building AI-assisted tooling to cut through alert noise. These days I’m especially drawn to projects where AI meets security — automating the repetitive work so analysts can focus on what actually matters.',
     'xp.heading': 'Experience',
     'xp.now': 'Current',
+    'xp.total': 'years in cybersecurity',
+    'xp.today': 'Today',
     'xp.1.dates': 'Mar 2023 — Present',
     'xp.1.type': 'Full-time · Remote',
     'xp.1.p1': 'Perform threat hunting activities across the entire environment.',
@@ -61,6 +63,8 @@ const translations = {
     'about.body': 'Analista de ciberseguridad en Buenos Aires, trabajando en detección de amenazas, respuesta a incidentes y arquitectura de seguridad. En el día a día vivo en el SOC: hago threat hunting, investigo incidentes de punta a punta y construyo herramientas asistidas por IA para filtrar el ruido de las alertas. Hoy me atraen especialmente los proyectos donde la IA se cruza con la seguridad: automatizar el trabajo repetitivo para que los analistas puedan enfocarse en lo que realmente importa.',
     'xp.heading': 'Experiencia',
     'xp.now': 'Actual',
+    'xp.total': 'años en ciberseguridad',
+    'xp.today': 'Hoy',
     'xp.1.dates': 'mar. 2023 — Actualidad',
     'xp.1.type': 'Tiempo completo · Remoto',
     'xp.1.p1': 'Realizo actividades de threat hunting en todo el entorno.',
@@ -142,6 +146,53 @@ langButtons.forEach((btn) => {
 });
 
 applyLanguage(localStorage.getItem('lang') || 'en');
+
+// Experiencia: años totales y barra de carrera proporcional
+const monthIndex = (ym) => {
+  const [y, m] = ym.split('-').map(Number);
+  return y * 12 + (m - 1);
+};
+const nowMonth = (() => {
+  const d = new Date();
+  return d.getFullYear() * 12 + d.getMonth() + 1; // incluye el mes en curso
+})();
+
+document.querySelectorAll('.xp-years').forEach((el) => {
+  el.textContent = `${Math.floor((nowMonth - monthIndex(el.dataset.since)) / 12)}+`;
+});
+
+document.querySelectorAll('.xpb-bar').forEach((bar) => {
+  const start = monthIndex(bar.dataset.start);
+  const span = nowMonth - start;
+  bar.querySelectorAll('.xpb-seg').forEach((seg) => {
+    const from = monthIndex(seg.dataset.from);
+    const to = seg.dataset.to ? monthIndex(seg.dataset.to) : nowMonth;
+    seg.style.flexGrow = to - from;
+  });
+
+  // Marcas de cada año, más "hoy" al final
+  const ticks = bar.querySelector('.xpb-ticks');
+  const firstYear = Math.ceil(start / 12);
+  for (let y = firstYear; y * 12 < nowMonth; y++) {
+    const tick = document.createElement('span');
+    tick.style.left = `${((y * 12 - start) / span) * 100}%`;
+    tick.textContent = y;
+    ticks.append(tick);
+  }
+  const today = document.createElement('span');
+  today.className = 'is-today';
+  today.style.left = '100%';
+  today.dataset.i18n = 'xp.today';
+  today.textContent = translations[document.documentElement.lang]?.['xp.today'] ?? 'Today';
+  ticks.append(today);
+
+  // Tramo y tarjeta se resaltan juntos
+  const scope = bar.closest('.xpb');
+  scope.querySelectorAll('[data-job]').forEach((el) => {
+    el.addEventListener('mouseenter', () => scope.dataset.focus = el.dataset.job);
+    el.addEventListener('mouseleave', () => delete scope.dataset.focus);
+  });
+});
 
 const glitchChars = '░▒▓█▄▀■□▢▣Ã†‡•‰„…‹›ˆ˜šœžƒ¶§±∆∑∞≈¥¤';
 const randomGlitchChar = () => glitchChars[Math.floor(Math.random() * glitchChars.length)];
