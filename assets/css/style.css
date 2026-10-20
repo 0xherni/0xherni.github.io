@@ -1562,6 +1562,188 @@ body.project::before {
   outline: none;
 }
 
+/* ===== About: experiencia como línea de tiempo ===== */
+html.snap #sobre-mi > .grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "head xp"
+    "body xp";
+  align-items: center;
+  column-gap: 4rem;
+  row-gap: 1.5rem;
+}
+
+html.snap #sobre-mi > .grid > h2 {
+  grid-area: head;
+  align-self: end;
+}
+
+html.snap #sobre-mi > .grid > p {
+  grid-area: body;
+  align-self: start;
+  font-size: clamp(1.1rem, 1.55vw, 1.45rem);
+}
+
+html.snap #sobre-mi .xp {
+  grid-area: xp;
+}
+
+/* El "01" gigante de fondo chocaría con la línea de tiempo */
+html.snap #sobre-mi::after {
+  display: none;
+}
+
+.xp-head {
+  margin-bottom: 1rem;
+  font: 500 12px / 1 'JetBrains Mono', monospace;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #8a8a92;
+}
+
+/* Línea vertical que une los puestos */
+.xp-list {
+  position: relative;
+  border-left: 1px solid #2a2a2e;
+}
+
+.xp-item {
+  position: relative;
+  padding: 0 0 clamp(1rem, 2.6svh, 1.75rem) 1.75rem;
+}
+
+.xp-item:last-child {
+  padding-bottom: 0;
+}
+
+/* Logo de la empresa como marca de agua roja */
+.xp-logo {
+  position: absolute;
+  top: 0.15rem;
+  right: 0;
+  height: 22px;
+  background: #ff3b3b;
+  opacity: 0.28;
+  -webkit-mask: center / contain no-repeat;
+  mask: center / contain no-repeat;
+  transition: opacity 0.3s ease;
+}
+
+.xp-item:hover .xp-logo {
+  opacity: 0.55;
+}
+
+.xp-logo--visma {
+  width: 81px;
+  -webkit-mask-image: url("../img/logos/visma.svg");
+  mask-image: url("../img/logos/visma.svg");
+}
+
+.xp-logo--edsi {
+  width: 96px;
+  -webkit-mask-image: url("../img/logos/edsi.png");
+  mask-image: url("../img/logos/edsi.png");
+}
+
+.xp-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font: 500 12px / 1 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  color: #8a8a92;
+}
+
+/* Punto sobre la línea; el puesto actual va en rojo y late */
+.xp-dot {
+  position: absolute;
+  left: -5px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #55555b;
+  border-radius: 50%;
+  background: #0a0a0b;
+}
+
+.is-current .xp-dot {
+  border-color: #ff3b3b;
+  background: #ff3b3b;
+}
+
+.is-current .xp-dot::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  animation: ct-ping 1.8s ease-out infinite;
+}
+
+.xp-now {
+  padding: 3px 7px;
+  border: 1px solid rgba(255, 59, 59, 0.4);
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ff3b3b;
+}
+
+.xp-role {
+  margin-top: 0.6rem;
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fafafa;
+}
+
+.xp-item:not(.is-current) .xp-role {
+  color: #d4d4d8;
+}
+
+.xp-company {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: #a1a1aa;
+}
+
+.xp-points {
+  margin-top: 0.6rem;
+}
+
+.xp-points li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: clamp(0.82rem, 1.05vw, 0.95rem);
+  line-height: 1.5;
+  color: #8a8a92;
+}
+
+.xp-points li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: #ff3b3b;
+}
+
+@media (max-width: 767px) {
+  html.snap #sobre-mi > .grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "body" "xp";
+  }
+
+  html.snap #sobre-mi .xp {
+    margin-top: 1rem;
+  }
+}
+
+/* En pantallas angostas el logo pisaría las fechas */
+@media (max-width: 519px) {
+  .xp-logo {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1585,7 +1767,8 @@ body.project::before {
   }
 
   .ct-cursor,
-  .ct-pulse::after {
+  .ct-pulse::after,
+  .is-current .xp-dot::after {
     animation: none;
   }
 
