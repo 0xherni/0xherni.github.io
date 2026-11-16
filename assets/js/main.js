@@ -493,11 +493,92 @@ if (document.documentElement.classList.contains('snap')) {
   window.addEventListener('resize', drawTrace);
   drawTrace();
 
+  // ===== Paginado propio para Firefox / Zen (Gecko) =====
+  // Con la rueda, el snap nativo de Gecko primero desplaza y después corrige
+  // hasta la sección: se siente pegajoso. En escritorio cada sección mide una
+  // pantalla, así que cada gesto de rueda pasa a la sección siguiente con un
+  // único movimiento. Chromium/WebKit y mobile siguen con el snap de CSS.
+  const isGecko = CSS.supports('-moz-appearance', 'none');
+  const desktop = window.matchMedia('(min-width: 768px)');
+  let goTo = (section) => section?.scrollIntoView({ behavior: 'smooth' });
+
+  if (isGecko) {
+    const root = document.documentElement;
+    const headerOffset = () => parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
+    const maxScroll = () => root.scrollHeight - window.innerHeight;
+    const topOf = (section) =>
+      Math.min(section.getBoundingClientRect().top + window.scrollY - headerOffset(), maxScroll());
+
+    // La sección cuyo inicio está más cerca del scroll actual
+    const nearest = () => sections.reduce((best, s) =>
+      (Math.abs(topOf(s) - window.scrollY) < Math.abs(topOf(best) - window.scrollY) ? s : best));
+
+    let animating = false;
+    let animEnd = 0;
+    let lastWheel = 0;
+    let frame = 0;
+
+    goTo = (section) => {
+      if (!section) return;
+      const from = window.scrollY;
+      const to = topOf(section);
+      if (Math.abs(to - from) < 2) return;
+      cancelAnimationFrame(frame);
+      if (reduceMotion.matches) {
+        window.scrollTo({ top: to, behavior: 'instant' });
+        return;
+      }
+      animating = true;
+      const start = performance.now();
+      const duration = 560;
+      const ease = (t) => 1 - (1 - t) ** 3;
+      const step = (now) => {
+        const t = Math.min((now - start) / duration, 1);
+        window.scrollTo({ top: from + (to - from) * ease(t), behavior: 'instant' });
+        if (t < 1) {
+          frame = requestAnimationFrame(step);
+        } else {
+          animating = false;
+          animEnd = performance.now();
+        }
+      };
+      frame = requestAnimationFrame(step);
+    };
+
+    const syncMode = () => root.classList.toggle('wheel-paging', desktop.matches);
+    desktop.addEventListener('change', syncMode);
+    syncMode();
+
+    window.addEventListener('wheel', (e) => {
+      if (!desktop.matches || e.ctrlKey || e.target.closest?.('dialog')) return;
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      e.preventDefault();
+
+      const now = performance.now();
+      const quiet = now - lastWheel > 150;
+      // Un "clic" de rueda es un salto grande; el touchpad manda deltas chicos y
+      // con inercia, así que solo cuenta como gesto nuevo tras una pausa
+      const notch = e.deltaMode === 1 || Math.abs(e.deltaY) >= 50;
+      lastWheel = now;
+      if (animating) return;
+      if (!quiet && !(notch && now - animEnd > 300)) return;
+
+      const current = nearest();
+      goTo(sections[sections.indexOf(current) + Math.sign(e.deltaY)]);
+    }, { passive: false });
+
+    // Teclado, barra de scroll o links: al terminar, acomoda a la sección más cercana
+    window.addEventListener('scrollend', () => {
+      if (!desktop.matches || animating) return;
+      goTo(nearest());
+    });
+  }
+
   // Navegación tipo vim
   document.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input, textarea')) return;
     const dir = { j: 1, k: -1 }[e.key];
     if (!dir || !active) return;
-    sections[sections.indexOf(active) + dir]?.scrollIntoView({ behavior: 'smooth' });
+    goTo(sections[sections.indexOf(active) + dir]);
   });
 }

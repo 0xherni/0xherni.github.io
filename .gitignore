@@ -6,3 +6,5 @@ Thumbs.db
 
 # Config local de Claude Code (rutas de la máquina)
 .claude/
+
+node_modules/

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — 0xherni</title>
+<meta name="robots" content="noindex">
+
+<!--
+  GitHub Pages sirve este archivo para cualquier URL que no exista, desde
+  cualquier ruta: por eso todos los paths son absolutos (/assets/...).
+-->
+
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0a0a0b">
+
+<script data-goatcounter="https://0xherni.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+
+<link rel="stylesheet" href="/assets/css/tailwind.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body class="bg-ink text-zinc-200 font-sans antialiased">
+
+<header class="fixed top-0 inset-x-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="font-mono text-sm text-accent tracking-tight">0xherni<span class="text-mute">/</span>portfolio</a>
+  </nav>
+</header>
+
+<main class="relative min-h-screen flex items-center overflow-hidden">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="relative max-w-6xl w-full mx-auto px-6 py-32">
+    <p class="font-mono text-accent text-sm mb-5" data-t="kicker">// error 404</p>
+    <h1 class="font-sans text-5xl sm:text-6xl md:text-7xl leading-[1.05] tracking-tight text-zinc-50">
+      <span class="text-mute" data-t="title1">Page</span><br><span data-t="title2">not found.</span>
+    </h1>
+    <p class="mt-8 max-w-xl text-lg text-zinc-400 leading-relaxed" data-t="body">
+      The address <code id="path" class="font-mono text-base text-zinc-200"></code> doesn’t exist or was moved.
+    </p>
+    <div class="mt-10 flex flex-wrap gap-4">
+      <a href="/" class="font-mono text-sm bg-accent text-ink px-5 py-3 rounded font-medium hover:opacity-90 transition-opacity" data-t="home">
+        ← Back to home
+      </a>
+      <a href="/#proyectos" class="font-mono text-sm border border-line px-5 py-3 rounded hover:border-accent hover:text-accent transition-colors" data-t="projects">
+        View projects
+      </a>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Muestra la ruta pedida y sigue el idioma elegido en el resto del sitio
+  (() => {
+    const es = {
+      kicker: '// error 404',
+      title1: 'Página',
+      title2: 'no encontrada.',
+      body: 'La dirección <code id="path" class="font-mono text-base text-zinc-200"></code> no existe o se movió.',
+      home: '← Volver al inicio',
+      projects: 'Ver proyectos',
+    };
+    let lang = 'en';
+    try { lang = localStorage.getItem('lang') || 'en'; } catch (e) {}
+    if (lang === 'es') {
+      document.documentElement.lang = 'es';
+      document.title = 'Página no encontrada — 0xherni';
+      document.querySelectorAll('[data-t]').forEach((el) => { el.innerHTML = es[el.dataset.t]; });
+    }
+    document.getElementById('path').textContent = location.pathname;
+  })();
+</script>
+</body>
+</html>

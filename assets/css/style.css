@@ -177,6 +177,12 @@ html.snap .profile-frame {
   }
 }
 
+/* Firefox / Zen en escritorio: el paginado lo hace main.js (ver "Paginado
+   propio para Firefox"), así que el snap nativo se apaga para no pelear */
+html.snap.wheel-paging {
+  scroll-snap-type: none;
+}
+
 /* El footer comparte pantalla con Contact: sin snap propio */
 html.snap body > footer {
   box-sizing: border-box;
