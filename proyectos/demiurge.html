@@ -68,7 +68,7 @@
 
   <!-- Header -->
   <header class="mb-12">
-    <p data-i18n="kicker" class="font-mono text-accent text-sm mb-4">// case study · beta, discontinued</p>
+    <p data-i18n="kicker" class="font-mono text-accent text-sm mb-4">Case study · beta, discontinued</p>
     <h1 class="font-sans font-700 text-4xl md:text-5xl leading-tight tracking-tight text-zinc-50 mb-6">
       Demiurge
     </h1>
@@ -114,7 +114,7 @@
       </p>
       <p data-i18n="p.1b" class="text-zinc-300 leading-relaxed text-lg">
         It's built for home users with no technical background. Every finding answers four questions —
-        what we found, why, how serious it is and what to do — with a hover glossary for technical words.
+        what we found, why, how serious it is and what to do. Technical words have a hover glossary for technical words.
         For people who want more, each card also has a technical view with raw data, the rules that fired
         and the MITRE ATT&amp;CK techniques involved.
       </p>
@@ -150,7 +150,7 @@
       <p data-i18n="p.3" class="text-zinc-300 leading-relaxed text-lg mb-6">
         Scoring happens <span class="text-zinc-100">per program, not per event</span>. Forty rules feed it:
         a single weak signal stays informational, several together escalate. When engines disagree, the alarm
-        is lowered and the card says so — fewer scary false positives for people who can't judge them.
+        is lowered and the card says so: fewer scary false positives for people who can't judge them.
       </p>
       <div class="grid sm:grid-cols-2 gap-x-8 border-t border-line mb-8">
         <div class="py-3 border-b border-line"><p data-i18n="e.1k" class="font-mono text-xs text-mute mb-1">Second opinion</p><p data-i18n="e.1v" class="text-zinc-200">Microsoft Defender, never deleting on its own</p></div>
@@ -197,7 +197,7 @@
       <p data-i18n="p.5" class="text-zinc-300 leading-relaxed text-lg mb-6">
         .NET 10 with WPF + WebView2 hosting a React 19 + TypeScript UI, SQLite for storage, WMI and P/Invoke
         (WinVerifyTrust, iphlpapi, ntdll) for collection, and a WiX MSI installer. The engine runs in-process:
-        closing the window ends everything — no service, no scheduled task. Bundled tools are pinned by version
+        closing the window ends everything. No service, no scheduled task. Bundled tools are pinned by version
         and SHA-256 and verified before every run.
       </p>
       <pre class="bg-panel border border-line rounded-lg p-5 overflow-x-auto font-mono text-sm text-zinc-300"><code data-i18n="code">src/Demiurge.Core   engine: collectors, intel, rules, scoring, storage, actions
@@ -235,7 +235,7 @@ tests/              102 tests, including the attacks from the security audit</co
     "title": "Demiurge — Hernán Argibay",
     "nav.back": "← volver a proyectos",
     "cta.back": "← volver a proyectos",
-    "kicker": "// caso de estudio · beta, discontinuado",
+    "kicker": "Caso de estudio · beta, discontinuado",
     "lead": "Una app de escritorio para Windows 10/11 que responde una sola pregunta: <span class=\"text-zinc-100\">¿mi PC está limpia o infectada?</span> Junta los rastros que deja Windows, los pasa por varios motores de detección y explica cada hallazgo en lenguaje simple.",
     "badge": "40 reglas · 28 áreas",
     "note.title": "Proyecto de portfolio, discontinuado",
@@ -243,7 +243,7 @@ tests/              102 tests, including the attacks from the security audit</co
     "cap.home": "Pantalla de veredicto. Datos de ejemplo de la app, no un escaneo real.",
     "h.1": "<span class=\"proj-h2-num\">01</span>La idea",
     "p.1a": "Demiurge es una <span class=\"text-zinc-100\">herramienta de visibilidad y segunda opinión, no un antivirus</span>: sin protección en tiempo real, nada corriendo en segundo plano, y no reemplaza a Microsoft Defender.",
-    "p.1b": "Está pensada para usuarios hogareños sin conocimientos técnicos. Cada hallazgo responde cuatro preguntas —qué encontramos, por qué, qué tan grave es y qué hacer— con un glosario al pasar el mouse sobre las palabras técnicas. Para quien quiere más, cada tarjeta tiene una vista técnica con los datos crudos, las reglas que se dispararon y las técnicas de MITRE ATT&amp;CK involucradas.",
+    "p.1b": "Está pensada para usuarios hogareños sin conocimientos técnicos. Cada hallazgo responde cuatro preguntas: qué encontramos, por qué, qué tan grave es y qué hacer. Las palabras técnicas tienen un glosario al pasar el mouse. Para quien quiere más, cada tarjeta tiene una vista técnica con los datos crudos, las reglas que se dispararon y las técnicas de MITRE ATT&amp;CK involucradas.",
     "h.2": "<span class=\"proj-h2-num\">02</span>Qué revisa",
     "p.2": "Revisa 28 áreas de Windows con APIs nativas, apuntando a las amenazas que de verdad afectan a usuarios hogareños: info-stealers, estafas de acceso remoto, comandos pegados tipo \"ClickFix\", secuestro del navegador, certificados raíz falsos, exclusiones en Defender, apps modificadas y logins por fuerza bruta.",
     "t.1": "Procesos",
